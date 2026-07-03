@@ -1,0 +1,21 @@
+/* Identidade visual POWER FIT — dark fitness premium */
+:root {
+  --blue:       #C4F135;   /* verde-limão — cor principal de ação */
+  --blue-dark:  #A3C81A;   /* verde-limão escuro — hover */
+  --blue-light: #1A2B00;   /* fundo esverdeado escuro — hovers suaves */
+  --yellow:     #FF6B2B;   /* laranja — destaque secundário */
+  --yellow-dark:#E05A18;   /* laranja escuro — hover secundário */
+  --rose-dark:  #F5F5F5;   /* branco — texto forte */
+  --green:      #22C55E;   /* sucesso */
+  --red:        #EF4444;   /* erro / alerta */
+  --bg:         #0D0D0D;   /* fundo escuro principal */
+  --card:       #141414;   /* fundo de card */
+  --text:       #F5F5F5;   /* texto primário */
+  --text-2:     #9CA3AF;   /* texto secundário */
+  --muted:      #6B7280;   /* texto suave */
+  --border:     #2D2D2D;   /* bordas */
+  --shadow:     0 1px 3px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.4);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.6);
+  --radius:     10px;
+  --green-bg:   #1A2B00;
+}

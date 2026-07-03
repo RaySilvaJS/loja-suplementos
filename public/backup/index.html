@@ -1,0 +1,2092 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>POWER FIT — Suplementos e Fitness para Todo o Brasil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+
+<style>
+/* ===== VARIÁVEIS MARKETPLACE — Identidade POWER FIT ===== */
+:root {
+  --blue:       #E98AA6;   /* rosa principal — botões e destaques */
+  --blue-dark:  #D96B8A;   /* rosa de destaque */
+  --blue-light: #FCE7EF;   /* rosa claro — fundos e hovers */
+  --yellow:     #F8B4C5;   /* rosa bebê — detalhes e selos */
+  --yellow-dark:#E98AA6;   /* rosa principal como escuro */
+  --rose-dark:  #5A2335;   /* rosa escuro — títulos e texto forte */
+  --green:      #16A34A;
+  --red:        #DC2626;
+  --bg:         #FDF4F7;
+  --card:       #FFFFFF;
+  --text:       #0F172A;
+  --text-2:     #475569;
+  --muted:      #94A3B8;
+  --border:     #F3C5D0;
+  --shadow:     0 1px 3px rgba(233,138,166,.1), 0 2px 8px rgba(233,138,166,.07);
+  --shadow-md:  0 4px 16px rgba(233,138,166,.15);
+  --radius:     10px;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { overflow-x: hidden; width: 100%; max-width: 100%; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0; padding: 0;
+  overflow-x: hidden; width: 100%; max-width: 100%;
+  line-height: 1.5;
+}
+a { text-decoration: none; color: inherit; }
+button, input, select { font: inherit; }
+
+/* ===== ANNOUNCEMENT BAR ===== */
+.announcement-bar {
+  background: #5A2335;
+  color: #F8E8ED;
+  font-size: 12px;
+  padding: 7px 20px;
+  text-align: center;
+  letter-spacing: .01em;
+}
+.announcement-bar strong { color: #F8B4C5; }
+
+/* ===== HEADER ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: var(--blue);
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* LOGO */
+.logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+  text-decoration: none;
+  flex-shrink: 0;
+  letter-spacing: -.01em;
+}
+.logo span { color: var(--yellow); }
+
+/* SEARCH */
+.search-wrapper {
+  flex: 1;
+  max-width: 680px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color .2s;
+}
+.search-wrapper:focus-within { border-color: var(--yellow); }
+
+.input {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  min-width: 0;
+}
+.input::placeholder { color: var(--muted); }
+
+.search__icon {
+  width: 46px;
+  height: 42px;
+  border: none;
+  background: var(--yellow);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .2s;
+}
+.search__icon:hover { background: var(--yellow-dark); }
+.search__icon svg path, .search__icon circle { stroke: #fff; fill: none; }
+
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  display: none;
+  animation: spinnerRotate .85s linear infinite;
+}
+.search__icon.loading .spinner { display: inline-block; }
+@keyframes spinnerRotate { to { transform: rotate(360deg); } }
+
+/* HEADER ACTIONS */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.header-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 7px 12px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background .2s;
+  text-decoration: none;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.header-btn:hover { background: rgba(255,255,255,.15); }
+.header-btn .hb-icon { font-size: 18px; line-height: 1; }
+.header-btn strong { font-size: 12px; font-weight: 700; }
+
+.cart-btn-wrap { position: relative; }
+
+.cart-count {
+  position: absolute;
+  top: 1px; right: 6px;
+  min-width: 17px; height: 17px;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 999px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  border: 2px solid #fff;
+}
+
+/* ===== TRUST STRIP ===== */
+.trust-strip {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+.trust-strip-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.trust-strip-inner::-webkit-scrollbar { display: none; }
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-2);
+  font-weight: 600;
+  padding: 9px 18px 9px 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.trust-item:not(:first-child) {
+  border-left: 1px solid var(--border);
+  padding-left: 18px;
+}
+.trust-item .ti-icon { font-size: 15px; }
+
+/* ===== CATEGORIES (ICON STRIP) ===== */
+.categories-bar {
+  background: #fff;
+  border-bottom: 2px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.categories-bar::-webkit-scrollbar { display: none; }
+
+.categories {
+  display: flex;
+  align-items: flex-start;
+  padding: 14px 20px;
+  gap: 4px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: max-content;
+  min-width: 100%;
+}
+
+.cat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 12px;
+  transition: background .15s;
+  user-select: none;
+  flex-shrink: 0;
+  min-width: 80px;
+}
+.cat-item:hover { background: #FCE7EF; }
+.cat-item:hover .cat-item__icon { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.13); }
+.cat-item.active .cat-item__icon {
+  box-shadow: 0 0 0 2.5px var(--blue), 0 4px 12px rgba(37,99,235,.25);
+}
+.cat-item.active .cat-item__name { color: var(--blue); font-weight: 700; }
+
+.cat-item__icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .15s, box-shadow .15s;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.cat-item__name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  text-align: center;
+  white-space: nowrap;
+  transition: color .15s;
+  line-height: 1.2;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 26px 0 14px;
+}
+.section-title h2 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title h2::before {
+  content: '';
+  display: inline-block;
+  width: 4px; height: 19px;
+  background: var(--blue);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.section-title a, .section-title span {
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.section-title a:hover, .section-title span:hover { text-decoration: underline; }
+
+/* ===== RESULTS SECTION ===== */
+.results-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+  animation: fadeInUp .35s ease-out;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.results-count {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.results-count__label  { font-size: 13px; color: var(--text-2); }
+.results-count__number { font-size: 22px; font-weight: 800; color: var(--blue); }
+.results-count__suffix { font-size: 13px; color: var(--text); font-weight: 600; }
+
+.sort-container { display: flex; align-items: center; gap: 8px; }
+.sort-label { font-size: 13px; color: var(--text-2); white-space: nowrap; }
+
+.sort-dropdown { position: relative; min-width: 190px; }
+
+.sort-dropdown__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+  width: 100%;
+}
+.sort-dropdown__trigger:hover,
+.sort-dropdown__trigger.active {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.08);
+}
+.sort-dropdown__trigger-text { flex: 1; text-align: left; }
+.sort-dropdown__trigger-icon {
+  width: 16px; height: 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-2);
+  transition: transform .2s;
+}
+.sort-dropdown__trigger.active .sort-dropdown__trigger-icon { transform: rotate(180deg); }
+
+.sort-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0; right: 0;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+  z-index: 100;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: all .18s;
+  pointer-events: none;
+}
+.sort-dropdown__menu.active {
+  opacity: 1; visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.sort-dropdown__option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  border: none; background: none;
+  width: 100%; text-align: left;
+  font-size: 13px; color: var(--text);
+  cursor: pointer;
+  transition: background .12s;
+}
+.sort-dropdown__option:hover { background: var(--blue-light); }
+.sort-dropdown__option.selected { background: var(--blue-light); color: var(--blue); font-weight: 600; }
+.sort-dropdown__option-icon { width: 16px; opacity: 0; flex-shrink: 0; }
+.sort-dropdown__option.selected .sort-dropdown__option-icon { opacity: 1; }
+
+.results-divider { height: 1px; background: var(--border); }
+.results-filters-info {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-2);
+}
+
+/* ===== PRODUCTS LIST ===== */
+/* [FIX - LAYOUT CARD] Grid 3 colunas no desktop, lista no mobile */
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding-bottom: 36px;
+}
+
+/* ===== CARD PRODUTO — MARKETPLACE STYLE ===== */
+.olx-adcard {
+  display: flex;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: box-shadow .2s, border-color .2s;
+  position: relative;
+  cursor: pointer;
+}
+.olx-adcard:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #CBD5E1;
+}
+.olx-adcard:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-md);
+}
+
+/* IMAGEM */
+.olx-adcard__media {
+  width: 180px;
+  min-width: 180px;
+  height: 180px;
+  position: relative;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+.olx-adcard__media img {
+  display: block;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.olx-adcard__favorite {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 30px; height: 30px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 5;
+  transition: all .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.olx-adcard__favorite:hover { border-color: #e53e3e; color: #e53e3e; transform: scale(1.1); }
+
+/* CONTEÚDO */
+.olx-adcard__content {
+  flex: 1;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 6px;
+}
+
+.olx-adcard__link { text-decoration: none; color: inherit; }
+
+.olx-adcard__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+  margin: 0;
+  transition: color .15s;
+}
+.olx-adcard__link:hover .olx-adcard__title { color: var(--blue); }
+
+/* BADGES */
+.olx-adcard__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.olx-core-badge {
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.olx-core-badge:nth-child(1) { background: #DCFCE7; color: #15803D; }
+.olx-core-badge:nth-child(2) { background: #DBEAFE; color: #1D4ED8; }
+.olx-core-badge:nth-child(3) { background: #F0FDF4; color: #166534; }
+.olx-core-badge:nth-child(4) { background: #FEF3C7; color: #92400E; }
+.olx-core-badge:nth-child(n+5) { background: #EDE9FE; color: #5B21B6; }
+
+/* SELLER */
+.olx-adcard__seller-info {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+}
+.seller-name { color: var(--text-2); font-weight: 500; }
+.rating { color: #F59E0B; font-weight: 600; font-size: 12px; }
+
+/* PREÇO */
+.olx-adcard__price {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 2px 0 0;
+  line-height: 1.1;
+}
+.olx-adcard__old-price {
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.olx-adcard__price-info {
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 500;
+}
+.font-bold { font-weight: 700; color: var(--text); }
+
+/* LOCALIZAÇÃO */
+.olx-adcard__location-date {
+  display: flex; align-items: center; gap: 12px;
+}
+.olx-adcard__location, .olx-adcard__date {
+  font-size: 11px; color: var(--text-2);
+  margin: 0;
+  display: flex; align-items: center; gap: 3px;
+}
+
+/* BOTÕES */
+/* [FIX - ACTION BUTTONS] nowrap para manter lado a lado */
+.olx-adcard__actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  margin-top: auto;
+  padding-top: 4px;
+}
+/* [FIX - ACTION BUTTONS] flex:1 sem min-width fixo para caber lado a lado */
+.olx-adcard__actions .button {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 10px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+.olx-adcard__actions .button:hover { transform: translateY(-1px); }
+
+/* Botões do card — identidade rosa */
+.olx-adcard__actions .button-primary {
+  background: #D96B8A;
+  color: #fff;
+  font-size: 13px;
+}
+.olx-adcard__actions .button-primary:hover { background: #5A2335; }
+
+.olx-adcard__actions .button-secondary {
+  background: #E98AA6;
+  color: #fff;
+  font-size: 13px;
+}
+.olx-adcard__actions .button-secondary:hover { background: #D96B8A; }
+
+/* BOTÕES GERAIS */
+.button {
+  border: none; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 7px;
+  padding: 11px 18px;
+  font-weight: 700; font-size: 13px;
+  transition: transform .15s, background .2s;
+}
+.button:hover { transform: translateY(-1px); }
+.button-primary  { background: var(--yellow); color: #1a1a2e; }
+.button-secondary{ background: var(--blue);   color: #fff; }
+.button-tertiary { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); }
+
+/* ===== NOTIFICAÇÃO ===== */
+.notification {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--green);
+  color: white;
+  padding: 13px 20px;
+  border-radius: 8px;
+  z-index: 10001;
+  box-shadow: 0 6px 20px rgba(22,163,74,.3);
+  animation: slideIn .3s ease-out;
+  max-width: calc(100vw - 32px);
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ===== LOAD MORE ===== */
+.load-more-container {
+  display: flex; justify-content: center;
+  padding: 24px 0 36px;
+}
+.load-more-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 32px;
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 8px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+  min-width: 200px;
+}
+.load-more-btn:hover { background: var(--blue-dark); transform: translateY(-2px); }
+.load-more-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+.load-more-btn__icon { width: 18px; height: 18px; flex-shrink: 0; }
+.load-more-btn.loading .load-more-btn__icon { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.load-more-btn.completed { background: var(--green); }
+.load-more-info {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 10px; font-size: 12px; color: var(--text-2);
+}
+.load-more-info__icon { width: 14px; height: 14px; opacity: .6; }
+
+/* ===== TRUST SECTION (MEIO DA PÁGINA) ===== */
+.trust-section {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 30px;
+  margin: 8px 0 28px;
+}
+.trust-section h3 {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 20px;
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+.trust-card {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  padding: 14px 8px;
+  border-radius: 8px;
+  background: #F8FAFC;
+  text-align: center;
+  transition: background .2s;
+}
+.trust-card:hover { background: var(--blue-light); color: #5A2335; }
+.trust-card .tc-icon { font-size: 26px; line-height: 1; }
+.trust-card strong { font-size: 12px; font-weight: 700; color: var(--text); display: block; line-height: 1.3; }
+.trust-card span { font-size: 10px; color: var(--text-2); line-height: 1.3; }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #0F172A;
+  color: #fff;
+  padding: 48px 24px 100px;
+}
+.footer-inner { max-width: 1400px; margin: 0 auto; }
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.benefit {
+  text-align: center;
+  font-size: 13px;
+  color: #94A3B8;
+  padding: 14px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 0.8fr;
+  gap: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  margin-bottom: 28px;
+}
+.footer-brand h2 { font-size: 24px; font-weight: 800; margin: 0 0 12px; color: #fff; }
+.footer-brand h2 span { color: var(--yellow); }
+.footer-brand p { color: #64748B; line-height: 1.7; font-size: 13px; max-width: 300px; }
+
+.footer-social { display: flex; gap: 8px; margin-top: 18px; }
+.footer-social a {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  color: #fff; text-decoration: none;
+  font-size: 16px;
+  transition: background .2s, transform .2s;
+}
+.footer-social a:hover { background: var(--blue); transform: translateY(-2px); }
+
+.footer-links h3 { font-size: 14px; font-weight: 700; margin: 0 0 14px; color: #fff; }
+.footer-links a {
+  display: block;
+  color: #64748B; text-decoration: none;
+  margin-bottom: 9px; font-size: 13px;
+  transition: color .2s;
+}
+.footer-links a:hover { color: #fff; }
+
+.payments { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.pay {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px; font-weight: 600;
+}
+.security { margin-top: 14px; color: #64748B; font-size: 12px; line-height: 1.6; }
+
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.footer-bottom p { color: #475569; font-size: 12px; margin: 0; }
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 1024px) {
+  .olx-adcard__media { width: 155px; min-width: 155px; height: 155px; }
+}
+
+@media (max-width: 768px) {
+  .header-main { flex-wrap: wrap; gap: 8px; padding: 8px 16px; }
+  .search-wrapper { order: 3; flex: 0 0 100%; max-width: 100%; }
+  .header-btn strong { display: none; }
+  .header-btn .hb-icon { font-size: 20px; }
+
+  .products { grid-template-columns: 1fr; }
+  .olx-adcard__media { width: 140px; min-width: 140px; height: 140px; }
+  .olx-adcard__content { padding: 10px 12px; gap: 4px; }
+  .olx-adcard__title { font-size: 14px; }
+  .olx-adcard__price { font-size: 18px; }
+  .olx-adcard__actions .button { padding: 8px 10px; min-width: 0; }
+
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .benefits { grid-template-columns: 1fr 1fr; }
+  .trust-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .main-content { padding: 0 16px; }
+  .trust-strip { padding: 0 16px; }
+  .categories { padding: 0 16px; }
+}
+
+@media (max-width: 600px) {
+  .announcement-bar { display: none; }
+  .trust-strip-inner { gap: 0; }
+
+  /* ── Card: grid lateral (imagem esquerda / conteúdo direita) ── */
+  .olx-adcard {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    align-items: start;
+  }
+  /* Coluna de mídia: altura fixa, não acompanha o conteúdo */
+  .olx-adcard__media {
+    width: 110px;
+    min-width: unset;
+    height: 165px;
+    max-height: 165px;
+    align-self: start;
+    border-right: 1px solid var(--border);
+    border-radius: var(--radius) 0 0 var(--radius);
+    overflow: hidden;
+    background: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Imagem contida — Produto exibido inteiro, sem corte */
+  .olx-adcard__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+  /* Conteúdo: evita estouro horizontal */
+  .olx-adcard__content { padding: 9px 11px; gap: 3px; overflow: hidden; }
+  /* Título: máximo 2 linhas */
+  .olx-adcard__title {
+    font-size: 13px;
+    margin-bottom: 3px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.35;
+  }
+  .olx-adcard__badges { display: none; }
+  .olx-adcard__price { font-size: 17px; }
+  .olx-adcard__price-info { font-size: 11px; }
+  .olx-adcard__location-date { display: none; }
+  /* Badge desconto compacto */
+  .desconto-hoje-badge { font-size: 10px; padding: 2px 7px; }
+  /* Brinde e entrega compactos */
+  .brinde-line { font-size: 11px; margin-top: 2px; }
+  .entrega-full-wrap { margin-top: 3px; gap: 4px; }
+  .entrega-full-text { font-size: 11px; }
+  /* Botões: grid 2 colunas iguais, sem estouro */
+  .olx-adcard__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: auto;
+    padding-top: 5px;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .olx-adcard__actions .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 7px 3px;
+    min-width: 0;
+    width: 100%;
+    line-height: 1.25;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .footer-top { grid-template-columns: 1fr; gap: 24px; }
+  .benefits { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .sort-label { display: none; }
+  .sort-dropdown { min-width: 0; width: 100%; }
+  .results-header { flex-direction: column; align-items: flex-start; }
+  .sort-container { width: 100%; }
+  .results-section { gap: 10px; }
+}
+
+@media (max-width: 420px) {
+  .olx-adcard { grid-template-columns: 98px minmax(0, 1fr); }
+  .olx-adcard__media { width: 98px; height: 148px; max-height: 148px; }
+  .olx-adcard__price { font-size: 15px; }
+  .olx-adcard__seller-info { display: none; }
+  .header-btn { padding: 6px 8px; }
+}
+
+/* Telas muito pequenas: botões em coluna */
+@media (max-width: 360px) {
+  .olx-adcard { grid-template-columns: 88px minmax(0, 1fr); }
+  .olx-adcard__media { width: 88px; height: 135px; max-height: 135px; }
+  .olx-adcard__actions { grid-template-columns: 1fr; }
+  .olx-adcard__actions .button { padding: 7px 8px; }
+}
+
+/* AUTH BUTTON */
+#auth-nav-btn {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+/* ===== [LOJA OFICIAL] Elementos novos dos cards ===== */
+/* [FIX - BADGE OVERFLOW] top/left:0, max-width:100% para não vazar da imagem */
+.loja-oficial-badge {
+  position: absolute;
+  top: 0; left: 0;
+  max-width: 100%;
+  background: #fff;
+  border: 1.5px solid #000;
+  border-radius: 0 0 4px 0;
+  padding: 2px 6px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: #000;
+  z-index: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  line-height: 1.4;
+}
+.desconto-hoje-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #FCE7EF;
+  border: 1px solid #F8B4C5;
+  color: #D96B8A;
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.preco-original-wrap { line-height: 1; margin-bottom: 2px; }
+.brinde-line {
+  color: #16A34A;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.entrega-full-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+}
+.entrega-full-wrap svg {
+  flex-shrink: 0;
+  color: #00a650;
+  stroke: #00a650;
+}
+.entrega-full-text {
+  font-size: 12px;
+  color: #00a650;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.entrega-full-pill {
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  background: #00a650;
+  border-radius: 3px;
+  padding: 2px 5px;
+  letter-spacing: 0.6px;
+  flex-shrink: 0;
+}
+.frete-gratis-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+.polylabel-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+}
+.polylabel-fw-semibold { font-weight: 600; }
+.polylabel-icon { vertical-align: middle; flex-shrink: 0; }
+
+/* ===== LUCIDE ICON SIZING ===== */
+.menu-btn svg { width: 22px; height: 22px; stroke: #fff; }
+.hb-icon svg  { width: 20px; height: 20px; }
+.ti-icon svg  { width: 15px; height: 15px; }
+.tc-icon svg  { width: 26px; height: 26px; }
+.benefit svg  { width: 14px; height: 14px; vertical-align: -2px; margin-right: 3px; }
+.footer-social a svg { width: 16px; height: 16px; }
+.security svg { width: 11px; height: 11px; vertical-align: -1px; }
+.drawer-link svg, .drawer-link [data-lucide] { width: 18px; height: 18px; flex-shrink: 0; }
+.drawer-auth-feature svg { width: 14px; height: 14px; vertical-align: -2px; }
+.drawer-close svg { width: 18px; height: 18px; stroke: #fff; }
+.drawer-user-icon svg { width: 36px; height: 36px; stroke: rgba(255,255,255,.9); }
+.olx-adcard__favorite svg { pointer-events: none; }
+
+/* ===== HAMBURGER BUTTON ===== */
+.menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: background .2s;
+  padding: 0;
+}
+.menu-btn:hover { background: rgba(255,255,255,.15); }
+
+/* ===== DRAWER OVERLAY ===== */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.52);
+  z-index: 1100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .28s, visibility .28s;
+}
+.drawer-overlay.open { opacity: 1; visibility: visible; }
+
+/* ===== SIDE DRAWER ===== */
+.side-drawer {
+  position: fixed;
+  top: 0; left: 0;
+  width: min(340px, 92vw);
+  height: 100%;
+  background: #fff;
+  z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 32px rgba(0,0,0,.18);
+}
+.side-drawer.open { transform: translateX(0); }
+
+.drawer-header {
+  background: var(--blue);
+  padding: 20px 18px 22px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.drawer-welcome { flex: 1; }
+.drawer-user-icon { margin-bottom: 8px; opacity: .9; }
+.drawer-welcome-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+.drawer-welcome-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,.75);
+  margin-top: 3px;
+}
+.drawer-close {
+  border: none;
+  background: rgba(255,255,255,.18);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .2s;
+  margin-top: 2px;
+  padding: 0;
+}
+.drawer-close:hover { background: rgba(255,255,255,.3); }
+
+.drawer-auth {
+  padding: 14px 18px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.drawer-auth p { font-size: 13px; color: var(--text-2); margin: 0 0 10px; }
+.drawer-auth-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+.drawer-auth-feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-2);
+  background: var(--bg);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.drawer-btn {
+  display: block;
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 8px;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+  font-family: inherit;
+}
+.drawer-btn:last-child { margin-bottom: 0; }
+.drawer-btn:hover { transform: translateY(-1px); }
+.drawer-btn-primary { background: var(--blue); color: #fff; }
+.drawer-btn-primary:hover { background: var(--blue-dark); }
+.drawer-btn-secondary { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); }
+.drawer-btn-secondary:hover { background: var(--blue-light); }
+
+.drawer-section { border-bottom: 1px solid var(--border); }
+.drawer-section-title {
+  padding: 12px 18px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.drawer-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+.drawer-link:hover { background: var(--blue-light); color: var(--blue); }
+.drawer-link:hover svg { stroke: var(--blue); }
+.drawer-link svg { stroke: var(--text-2); transition: stroke .15s; }
+
+/* ===== BOTÃO FLUTUANTE WHATSAPP ===== */
+.wa-float-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1500;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,.45);
+  transition: transform .2s, box-shadow .2s;
+  text-decoration: none;
+  border: 3px solid #fff;
+}
+.wa-float-btn:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(37,211,102,.6); }
+@media (max-width: 480px) {
+  .wa-float-btn { bottom: 16px; right: 16px; width: 52px; height: 52px; }
+  .wa-float-btn svg { width: 24px; height: 24px; }
+}
+
+
+/* ===== PAGINAÇÃO ===== */
+#pagination-wrapper { padding: 20px 0 36px; }
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pg-btn {
+  min-width: 42px; height: 42px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  border-radius: 9px;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 14px;
+  transition: all .15s;
+  font-family: inherit;
+  line-height: 1;
+}
+.pg-btn:hover:not(:disabled) {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-light);
+}
+.pg-btn.active {
+  background: var(--blue-dark);
+  color: #fff;
+  border-color: var(--blue-dark);
+}
+.pg-btn:disabled { opacity: .4; cursor: not-allowed; }
+.pg-btn.pg-nav { font-size: 13px; padding: 0 16px; gap: 4px; }
+@media (max-width: 480px) {
+  .pg-btn { min-width: 36px; height: 36px; font-size: 13px; padding: 0 10px; }
+  .pg-btn.pg-nav { padding: 0 12px; }
+}
+
+/* ===== SKELETON LOADER ===== */
+#skeleton-loader { display: block; }
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding-bottom: 20px;
+}
+.skeleton-card {
+  display: flex;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  height: 180px;
+}
+.skeleton-media {
+  width: 180px;
+  min-width: 180px;
+  background: #eef2f7;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.skeleton-content {
+  flex: 1;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+.skeleton-line {
+  background: #eef2f7;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton-line::after,
+.skeleton-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.75) 50%, transparent 100%);
+  animation: sk-shimmer 1.4s ease-in-out infinite;
+  transform: translateX(-100%);
+}
+@keyframes sk-shimmer {
+  to { transform: translateX(100%); }
+}
+@media (max-width: 768px) {
+  .skeleton-grid { grid-template-columns: 1fr; }
+  .skeleton-card { height: 130px; }
+  .skeleton-media { width: 130px; min-width: 130px; }
+}
+@media (max-width: 600px) {
+  .skeleton-card { height: 120px; }
+  .skeleton-media { width: 120px; min-width: 120px; }
+}
+
+/* ── BANNERS PROMOCIONAIS ── */
+.banners-section {
+  width: 100%;
+  padding: 10px 16px 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+.banners-viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  aspect-ratio: 38 / 13;
+  background: #1e293b;
+  contain: strict;
+}
+@media (max-width: 640px) {
+  .banners-section { padding: 8px 10px 2px; }
+  .banners-viewport { aspect-ratio: 12 / 5; border-radius: 10px; }
+}
+.banners-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.banner-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: translateX(100%);
+  transition: transform .55s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+  border-radius: 14px;
+}
+.banner-slide.active {
+  pointer-events: auto;
+  transform: translateX(0);
+  z-index: 1;
+}
+.banner-slide.exit-left  { transform: translateX(-100%); }
+.banner-slide.exit-right { transform: translateX(100%);  }
+.banner-slide.enter-from-left { transform: translateX(-100%); }
+@media (max-width: 640px) {
+  .banner-slide { border-radius: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner-slide { transition: opacity .2s ease; transform: none !important; }
+}
+
+/* ── SETAS DO CARROSSEL ── */
+.banners-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.85);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,.15);
+  transition: background .2s, transform .2s;
+  backdrop-filter: blur(4px);
+  color: #5A2335;
+}
+.banners-arrow:hover { background: #fff; transform: translateY(-50%) scale(1.1); }
+.banners-arrow--prev { left: 12px; }
+.banners-arrow--next { right: 12px; }
+@media (max-width: 640px) { .banners-arrow { display: none !important; } }
+.banner-slide a,
+.banner-slide > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.banner-slide a img,
+.banner-slide > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: inherit;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.banners-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 0 2px;
+}
+.banners-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(37,99,235,.2);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background .2s, transform .2s, width .2s;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.banners-dot.active {
+  background: var(--blue, #2563EB);
+  transform: scale(1.3);
+  width: 18px;
+  border-radius: 4px;
+}
+
+</style>
+<script src="/js/meta-pixel.js"></script>
+</head>
+<body>
+
+<!-- ===== DRAWER OVERLAY ===== -->
+<div id="drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>
+
+<!-- ===== MENU LATERAL ESTILO MERCADO LIVRE ===== -->
+<aside id="side-drawer" class="side-drawer" role="complementary" aria-label="Menu de navegação">
+
+  <!-- Cabeçalho do drawer -->
+  <div class="drawer-header">
+    <div class="drawer-welcome">
+      <div class="drawer-user-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="drawer-welcome-name" id="drawer-user-name">Bem-vindo</div>
+      <div class="drawer-welcome-sub" id="drawer-user-sub">Entre para acessar sua conta</div>
+    </div>
+    <button id="drawer-close-btn" class="drawer-close" aria-label="Fechar menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- Seção de autenticação (exibida quando não logado) -->
+  <div class="drawer-auth" id="drawer-auth-section">
+    <p>Entre na sua conta para acessar:</p>
+    <div class="drawer-auth-features">
+      <span class="drawer-auth-feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        Compras
+      </span>
+      <span class="drawer-auth-feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Favoritos
+      </span>
+      <span class="drawer-auth-feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Pedidos
+      </span>
+      <span class="drawer-auth-feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Cupons
+      </span>
+    </div>
+    <a href="/login.html" class="drawer-btn drawer-btn-primary">Entrar</a>
+    <a href="/cadastro.html" class="drawer-btn drawer-btn-secondary">Criar Conta</a>
+  </div>
+
+  <!-- Categorias -->
+  <div class="drawer-section">
+    <div class="drawer-section-title">Categorias</div>
+    <a href="#" class="drawer-link" data-catalog="whey">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      iPhones
+    </a>
+    <a href="#" class="drawer-link" data-catalog="creatina">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16V8a7 7 0 0 1 14 0v8"/><rect x="3" y="16" width="18" height="5" rx="2"/><line x1="8" y1="2" x2="6" y2="5"/><line x1="16" y1="2" x2="18" y2="5"/></svg>
+      Android
+    </a>
+    <a href="#" class="drawer-link" data-catalog="pretreino">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="11" rx="3"/><path d="M7 12v-2M6 11h2"/><circle cx="15" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="13" r="1" fill="currentColor"/></svg>
+      Consoles
+    </a>
+    <a href="#" class="drawer-link" data-catalog="roupas">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="5" width="10" height="14" rx="3"/><path d="M9 5V3.5A1.5 1.5 0 0 1 10.5 2h3A1.5 1.5 0 0 1 15 3.5V5"/><path d="M9 19v1.5A1.5 1.5 0 0 0 10.5 22h3a1.5 1.5 0 0 0 1.5-1.5V19"/><polyline points="12 9 12 12 14 13"/></svg>
+      Smartwatches
+    </a>
+    <a href="#" class="drawer-link" data-catalog="acessorios">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+      Acessórios
+    </a>
+    <a href="#" class="drawer-link" data-catalog="vitaminas">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Informática
+    </a>
+    <a href="#" class="drawer-link" data-catalog="suplementos">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+      Suplementos
+    </a>
+  </div>
+
+  <!-- Minha Conta -->
+  <div class="drawer-section">
+    <div class="drawer-section-title">Minha Conta</div>
+    <a href="/meus-pedidos.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Meus Pedidos
+    </a>
+    <a href="/minha-conta.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Favoritos
+    </a>
+    <a href="/cart.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Carrinho
+    </a>
+    <a href="/minha-conta.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Endereços
+    </a>
+    <a href="/atendimento.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.66 3.38 2 2 0 0 1 3.64 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.85A16 16 0 0 0 13 14l.93-.93a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 15.36"/></svg>
+      Suporte
+    </a>
+  </div>
+
+  <!-- Ajuda -->
+  <div class="drawer-section">
+    <div class="drawer-section-title">Ajuda</div>
+    <a href="/atendimento.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.66 3.38 2 2 0 0 1 3.64 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.85A16 16 0 0 0 13 14l.93-.93a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 15.36"/></svg>
+      Atendimento
+    </a>
+    <a href="/faq.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Perguntas Frequentes
+    </a>
+    <a href="/trocas.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      Política de Trocas
+    </a>
+    <a href="/termos.html" class="drawer-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Termos de Uso
+    </a>
+  </div>
+
+</aside>
+
+<!-- [LOJA OFICIAL] SVG sprite para badge FULL (frete grátis Mercado Livre style) -->
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="poly_full" viewBox="0 0 41 13">
+      <rect width="41" height="13" rx="2" fill="#00A650"/>
+      <text x="5" y="10" font-size="8.5" font-weight="800" fill="#fff" font-family="Arial,sans-serif" letter-spacing=".5">FULL</text>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Announcement Bar -->
+<div class="announcement-bar">
+  <strong>Frete Grátis</strong> para todo o Brasil em suplementos selecionados · Parcele em até <strong>12x sem juros</strong> · <strong>Garantia de 90 dias</strong>
+</div>
+
+<!-- HEADER PRINCIPAL -->
+<header>
+  <div class="header-main">
+
+    <button id="menu-btn" class="menu-btn" type="button" aria-label="Abrir menu de navegação">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <a href="/" class="logo">POWER FIT</a>
+
+    <div class="search-wrapper">
+      <input id="filter-model" class="input" type="text" placeholder="Buscar produto por nome, sabor ou tamanho..." autocomplete="off"/>
+      <button id="search-btn" class="search__icon" type="button" aria-label="Buscar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="spinner" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <a href="/minha-conta.html" class="header-btn" id="auth-nav-btn">
+        <span class="hb-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+        <strong>Minha Conta</strong>
+      </a>
+      <div class="cart-btn-wrap">
+        <button class="header-btn" type="button" id="cart-button" onclick="window.location.href='/cart.html'">
+          <span class="hb-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </span>
+          <strong>Carrinho</strong>
+        </button>
+        <span id="cart-count" class="cart-count">0</span>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-strip-inner">
+    <div class="trust-item"><span class="ti-icon"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Compra 100% Segura</div>
+    <div class="trust-item"><span class="ti-icon"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span> Frete para Todo o Brasil</div>
+    <div class="trust-item"><span class="ti-icon"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"/><polyline points="2.32 6.16 12 11 21.68 6.16"/><line x1="12" y1="22.76" x2="12" y2="11"/></svg></span> Envio Rápido</div>
+    <div class="trust-item"><span class="ti-icon"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> Garantia 90 dias</div>
+    <div class="trust-item"><span class="ti-icon"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Suporte WhatsApp</div>
+    <div class="trust-item"><span class="ti-icon"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Produto Original</div>
+  </div>
+</div>
+
+<!-- BANNERS PROMOCIONAIS -->
+<section class="banners-section" id="banners-section" style="display:none" aria-label="Banners promocionais">
+  <div class="banners-viewport" id="banners-viewport" role="region" aria-roledescription="carrossel">
+    <div class="banners-track" id="banners-track"></div>
+    <button class="banners-arrow banners-arrow--prev" id="banners-prev" aria-label="Banner anterior" style="display:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="banners-arrow banners-arrow--next" id="banners-next" aria-label="Próximo banner" style="display:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  <div class="banners-dots" id="banners-dots" role="tablist" aria-label="Navegar entre banners"></div>
+</section>
+
+<!-- CATEGORIAS -->
+<div class="categories-bar">
+  <div class="categories">
+
+    <div class="cat-item active" data-catalog="whey">
+      <div class="cat-item__icon" style="background:#dbeafe;padding:0;">
+        <img src="assets/categories/suplementos.png" alt="Suplementos" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" loading="eager" onerror="this.style.opacity=0">
+      </div>
+      <span class="cat-item__name">Whey Protein</span>
+    </div>
+
+    <div class="cat-item" data-catalog="creatina">
+      <div class="cat-item__icon" style="background:#dcfce7;padding:0;">
+        <img src="assets/categories/creatina.png" alt="Creatina" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" loading="lazy" onerror="this.style.opacity=0">
+      </div>
+      <span class="cat-item__name">Creatina</span>
+    </div>
+
+    <div class="cat-item" data-catalog="pretreino">
+      <div class="cat-item__icon" style="background:#ede9fe;padding:0;">
+        <img src="assets/categories/pretreino.png" alt="Pré-treino" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" loading="lazy" onerror="this.style.opacity=0">
+      </div>
+      <span class="cat-item__name">Pré-treino</span>
+    </div>
+
+    <div class="cat-item" data-catalog="roupas">
+      <div class="cat-item__icon" style="background:#ffedd5;padding:0;">
+        <img src="assets/categories/roupas.png" alt="Roupas Fitness" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" loading="lazy" onerror="this.style.opacity=0">
+      </div>
+      <span class="cat-item__name">Roupas Fitness</span>
+    </div>
+
+    <div class="cat-item" data-catalog="acessorios">
+      <div class="cat-item__icon" style="background:#fce7f3;padding:0;">
+        <img src="assets/categories/acessorios.png" alt="Acessórios" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" loading="lazy" onerror="this.style.opacity=0">
+      </div>
+      <span class="cat-item__name">Acessórios</span>
+    </div>
+
+    <div class="cat-item" data-catalog="vitaminas">
+      <div class="cat-item__icon" style="background:#cffafe;padding:0;">
+        <img src="assets/categories/vitaminas.png" alt="Vitaminas & Saúde" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" loading="lazy" onerror="this.style.opacity=0">
+      </div>
+      <span class="cat-item__name">Vitaminas & Saúde</span>
+    </div>
+
+    <div class="cat-item" data-catalog="suplementos">
+      <div class="cat-item__icon" style="background:#dcfce7;padding:0;">
+        <img src="assets/categories/suplementos.png" alt="Suplementos" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" loading="lazy" onerror="this.style.opacity=0">
+      </div>
+      <span class="cat-item__name">Suplementos</span>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- CONTEÚDO PRINCIPAL -->
+<div class="main-content">
+
+  <!-- SKELETON LOADER — visível apenas durante fetch de catálogo não cacheado -->
+  <div id="skeleton-loader">
+    <div class="skeleton-grid">
+      <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-content"><div class="skeleton-line" style="height:15px;width:75%"></div><div class="skeleton-line" style="height:13px;width:55%"></div><div class="skeleton-line" style="height:26px;width:48%;margin-top:4px"></div><div class="skeleton-line" style="height:11px;width:38%"></div><div class="skeleton-line" style="height:34px;width:100%;margin-top:auto"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-content"><div class="skeleton-line" style="height:15px;width:82%"></div><div class="skeleton-line" style="height:13px;width:50%"></div><div class="skeleton-line" style="height:26px;width:52%;margin-top:4px"></div><div class="skeleton-line" style="height:11px;width:42%"></div><div class="skeleton-line" style="height:34px;width:100%;margin-top:auto"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-content"><div class="skeleton-line" style="height:15px;width:68%"></div><div class="skeleton-line" style="height:13px;width:60%"></div><div class="skeleton-line" style="height:26px;width:44%;margin-top:4px"></div><div class="skeleton-line" style="height:11px;width:35%"></div><div class="skeleton-line" style="height:34px;width:100%;margin-top:auto"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-content"><div class="skeleton-line" style="height:15px;width:78%"></div><div class="skeleton-line" style="height:13px;width:48%"></div><div class="skeleton-line" style="height:26px;width:50%;margin-top:4px"></div><div class="skeleton-line" style="height:11px;width:40%"></div><div class="skeleton-line" style="height:34px;width:100%;margin-top:auto"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-content"><div class="skeleton-line" style="height:15px;width:71%"></div><div class="skeleton-line" style="height:13px;width:57%"></div><div class="skeleton-line" style="height:26px;width:46%;margin-top:4px"></div><div class="skeleton-line" style="height:11px;width:36%"></div><div class="skeleton-line" style="height:34px;width:100%;margin-top:auto"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-media"></div><div class="skeleton-content"><div class="skeleton-line" style="height:15px;width:85%"></div><div class="skeleton-line" style="height:13px;width:52%"></div><div class="skeleton-line" style="height:26px;width:54%;margin-top:4px"></div><div class="skeleton-line" style="height:11px;width:44%"></div><div class="skeleton-line" style="height:34px;width:100%;margin-top:auto"></div></div></div>
+    </div>
+  </div>
+
+  <!-- GRADE DE PRODUTOS -->
+  <div class="products" id="products-grid"></div>
+
+  <!-- PAGINAÇÃO -->
+  <div id="pagination-wrapper" style="display:none;">
+    <div class="pagination" id="pagination" role="navigation" aria-label="Paginação de produtos"></div>
+  </div>
+
+  <!-- Elementos legados mantidos para compatibilidade com app.js -->
+  <div id="load-more-sentinel" style="height:1px;pointer-events:none;" aria-hidden="true"></div>
+  <div id="load-more-wrapper" style="display:none;"><button id="load-more-btn" style="display:none;"></button><span id="load-more-text"></span><span id="load-more-info-text"></span></div>
+
+  <!-- SEÇÃO DE CONFIANÇA -->
+  <div class="trust-section">
+    <h3>Por que comprar na POWER FIT?</h3>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D96B8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <strong>Compra Segura</strong>
+        <span>Ambiente 100% protegido e criptografado</span>
+      </div>
+      <div class="trust-card">
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D96B8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <strong>Todo o Brasil</strong>
+        <span>Enviamos para todos os estados</span>
+      </div>
+      <div class="trust-card">
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D96B8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"/><polyline points="2.32 6.16 12 11 21.68 6.16"/><line x1="12" y1="22.76" x2="12" y2="11"/></svg></div>
+        <strong>Envio Imediato</strong>
+        <span>Produtos prontos para envio no mesmo dia</span>
+      </div>
+      <div class="trust-card">
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D96B8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <strong>Garantia 90 dias</strong>
+        <span>Garantia de qualidade em todos os produtos</span>
+      </div>
+      <div class="trust-card">
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D96B8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <strong>Suporte WhatsApp</strong>
+        <span>Atendimento rápido via WhatsApp</span>
+      </div>
+      <div class="trust-card">
+        <div class="tc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D96B8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <strong>Produto Original</strong>
+        <span>Suplementos certificados e originais</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main-content -->
+
+<!-- Elementos ocultos exigidos pelo app.js -->
+<div style="display:none">
+  <select id="filter-condition"><option value=""></option></select>
+  <select id="filter-color"><option value=""></option></select>
+  <input id="filter-max-price" type="number">
+  <button id="apply-filter"></button>
+  <button id="reset-filter"></button>
+</div>
+
+<!-- Cart drawer -->
+<div id="cart-drawer" style="display:none;position:fixed;right:0;top:0;width:min(350px,100vw);height:100%;background:#fff;z-index:10000;box-shadow:-8px 0 24px rgba(0,0,0,.12);padding:20px;overflow-y:auto;box-sizing:border-box;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h3 style="margin:0;font-size:18px;">Carrinho</h3>
+    <button onclick="closeCart()" style="border:none;background:none;cursor:pointer;color:#666;display:flex;align-items:center;padding:4px;" aria-label="Fechar carrinho"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="drawer-content"></div>
+</div>
+
+<div id="chat-widget" style="display:none"><button id="chat-close"></button><div class="chat-option"></div></div>
+
+<script src="js/cookie-consent.js"></script>
+<script src="js/auth.js"></script>
+<script src="cart.js"></script>
+<script src="compare.js"></script>
+<script src="js/loja-oficial.js"></script>
+<script src="js/coupon-modal.js"></script>
+<script src="app.js"></script>
+
+<script src="/pages/index-1.js"></script>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="benefits">
+      <div class="benefit"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Frete Grátis Selecionados</div>
+      <div class="benefit"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Compra 100% Segura</div>
+      <div class="benefit"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> Produtos Originais Apple</div>
+      <div class="benefit"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Até 12x Sem Juros</div>
+    </div>
+
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h2>POWER FIT</h2>
+        <p>Suplementos e produtos fitness com entrega rápida para todo o Brasil. Sua loja de confiança.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h3>Institucional</h3>
+        <a href="#">Sobre Nós</a>
+        <a href="/atendimento.html">Atendimento</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/trocas.html">Trocas e Devoluções</a>
+        <a href="/termos.html">Termos de Uso</a>
+      </div>
+      <div class="footer-links">
+        <h3>Atendimento</h3>
+        <a href="/atendimento.html">Central de Ajuda</a>
+        <a href="https://wa.me/5521988631029?text=Oi+atendimento" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="mailto:layjessica01@gmail.com">E-mail</a>
+        <a href="/atendimento.html">Horário de Atendimento</a>
+      </div>
+      <div class="footer-links">
+        <h3>Minha Conta</h3>
+        <a href="/login.html">Entrar</a>
+        <a href="/cadastro.html">Cadastrar</a>
+        <a href="/meus-pedidos.html">Meus Pedidos</a>
+        <a href="/minha-conta.html">Meus Endereços</a>
+      </div>
+      <div class="footer-links">
+        <h3>Pagamentos</h3>
+        <div class="payments">
+          <div class="pay">PIX</div>
+          <div class="pay">Visa</div>
+          <div class="pay">Master</div>
+          <div class="pay">Elo</div>
+        </div>
+        <div class="security"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Ambiente 100% seguro<br>Dados criptografados SSL</div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 POWER FIT LTDA — Todos os direitos reservados</p>
+      <p>CNPJ: 28.899.526/0001-74</p>
+    </div>
+
+  </div>
+</footer>
+
+
+<script src="/pages/index-2.js"></script>
+
+<!-- BOTÃO FLUTUANTE WHATSAPP -->
+<a href="https://wa.me/5521988631029?text=Ol%C3%A1%2C+vim+pelo+site+da+POWER+FIT+e+gostaria+de+tirar+uma+d%C3%BAvida."
+   target="_blank" rel="noopener noreferrer"
+   class="wa-float-btn"
+   id="wa-float-btn"
+   aria-label="Falar com atendimento no WhatsApp"
+   title="WhatsApp — Atendimento">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script src="/pages/index-3.js"></script>
+<script src="/js/tracker-beacon.js"></script>
+<script src="/js/admin-bar.js"></script>
+<script src="/js/admin-edit.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.444.0/dist/umd/lucide.min.js" defer></script>
+<script>
+/* ── CARROSSEL DE BANNERS — TRANSIÇÃO HORIZONTAL ── */
+(function () {
+  'use strict';
+  var section  = document.getElementById('banners-section');
+  var viewport = document.getElementById('banners-viewport');
+  var track    = document.getElementById('banners-track');
+  var dotsEl   = document.getElementById('banners-dots');
+  var btnPrev  = document.getElementById('banners-prev');
+  var btnNext  = document.getElementById('banners-next');
+  if (!section || !viewport || !track || !dotsEl) return;
+
+  var banners  = [];
+  var slides   = [];
+  var dots     = [];
+  var current  = 0;
+  var timer    = null;
+  var paused   = false;
+  var resumeTO = null;
+  var INTERVAL = 4500;
+
+  function isMobile() { return window.innerWidth < 768; }
+
+  function escHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function safeHref(s) {
+    var v = String(s || '').trim();
+    if (/^javascript:/i.test(v) || /^data:/i.test(v)) return '#';
+    return v || '#';
+  }
+
+  function buildSlides() {
+    track.innerHTML  = '';
+    dotsEl.innerHTML = '';
+    slides = [];
+    dots   = [];
+    banners.forEach(function (b, i) {
+      var src = (isMobile() && b.imageMobile) ? b.imageMobile : (b.imageDesktop || b.imageMobile || '');
+      if (!src) return;
+
+      var slide = document.createElement('div');
+      slide.className = 'banner-slide' + (slides.length === 0 ? ' active' : '');
+      slide.setAttribute('role', 'tabpanel');
+      slide.setAttribute('aria-label', escHtml(b.name || ('Banner ' + (i + 1))));
+
+      var altText = escHtml(b.alt || b.title || b.name || 'Banner promocional');
+      var href    = safeHref(b.href);
+      var loading = slides.length === 0 ? 'eager' : 'lazy';
+      var prio    = slides.length === 0 ? ' fetchpriority="high"' : '';
+      var rel     = b.target === '_blank' ? ' rel="noopener noreferrer"' : '';
+
+      if (href && href !== '#') {
+        slide.innerHTML =
+          '<a href="' + href + '" target="' + escHtml(b.target || '_self') + '"' + rel + ' aria-label="' + altText + '">' +
+          '<img src="' + escHtml(src) + '" alt="' + altText + '" loading="' + loading + '"' + prio + '>' +
+          '</a>';
+      } else {
+        slide.innerHTML = '<img src="' + escHtml(src) + '" alt="' + altText + '" loading="' + loading + '"' + prio + '>';
+      }
+
+      track.appendChild(slide);
+      slides.push(slide);
+
+      var dot = document.createElement('button');
+      dot.className = 'banners-dot' + (slides.length === 1 ? ' active' : '');
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', 'Banner ' + slides.length);
+      dot.setAttribute('aria-selected', slides.length === 1 ? 'true' : 'false');
+      (function(sl) {
+        dot.addEventListener('click', function () {
+          var idx = slides.indexOf(sl);
+          goTo(idx, idx > current ? 1 : -1);
+        });
+      })(slide);
+      dotsEl.appendChild(dot);
+      dots.push(dot);
+    });
+
+    /* Mostra setas somente se há mais de 1 banner e em desktop */
+    if (btnPrev && btnNext && slides.length > 1) {
+      btnPrev.style.display = '';
+      btnNext.style.display = '';
+    }
+  }
+
+  /* goTo com direção:  1 = próximo (entra da direita), -1 = anterior (entra da esquerda) */
+  function goTo(idx, dir) {
+    if (slides.length < 2) return;
+    var prev = current;
+    current  = ((idx % slides.length) + slides.length) % slides.length;
+    if (prev === current) return;
+
+    var forward = dir !== undefined ? dir > 0 : idx > prev;
+
+    /* Posiciona o slide entrante fora da tela sem transição */
+    if (!forward) {
+      slides[current].style.transition = 'none';
+      slides[current].classList.add('enter-from-left');
+      slides[current].offsetWidth; /* forçar reflow */
+      slides[current].style.transition = '';
+    }
+
+    /* Ativa o slide entrante (translateX(0)) */
+    slides[current].classList.remove('enter-from-left', 'exit-left', 'exit-right');
+    slides[current].classList.add('active');
+
+    /* Saída do slide anterior */
+    slides[prev].classList.remove('active');
+    slides[prev].classList.add(forward ? 'exit-left' : 'exit-right');
+
+    /* Atualiza dots */
+    dots[prev].classList.remove('active');
+    dots[prev].setAttribute('aria-selected', 'false');
+    dots[current].classList.add('active');
+    dots[current].setAttribute('aria-selected', 'true');
+
+    /* Limpa classes de saída após a transição */
+    var leaving = slides[prev];
+    function onEnd() {
+      leaving.classList.remove('exit-left', 'exit-right');
+      leaving.removeEventListener('transitionend', onEnd);
+    }
+    leaving.addEventListener('transitionend', onEnd);
+    setTimeout(function () { leaving.classList.remove('exit-left', 'exit-right'); }, 700);
+  }
+
+  function next() { goTo(current + 1, 1); }
+  function prev() { goTo(current - 1, -1); }
+
+  function startTimer() {
+    clearInterval(timer);
+    if (slides.length > 1) timer = setInterval(function () { if (!paused) next(); }, INTERVAL);
+  }
+
+  function pauseFor(ms) {
+    paused = true;
+    clearTimeout(resumeTO);
+    if (ms) resumeTO = setTimeout(function () { paused = false; }, ms);
+  }
+
+  /* Setas desktop */
+  if (btnPrev) btnPrev.addEventListener('click', function() { prev(); pauseFor(3000); });
+  if (btnNext) btnNext.addEventListener('click', function() { next(); pauseFor(3000); });
+
+  /* Mouse hover — pausa auto-play */
+  viewport.addEventListener('mouseenter', function () { pauseFor(0); });
+  viewport.addEventListener('mouseleave', function () { paused = false; });
+
+  /* Swipe em toque */
+  var txStart = 0, tyStart = 0;
+  viewport.addEventListener('touchstart', function (e) {
+    txStart = e.changedTouches[0].clientX;
+    tyStart = e.changedTouches[0].clientY;
+    pauseFor(0);
+  }, { passive: true });
+  viewport.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - txStart;
+    var dy = e.changedTouches[0].clientY - tyStart;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) next(); else prev();
+    }
+    pauseFor(2500);
+  }, { passive: true });
+
+  /* Reconstrói ao mudar entre mobile/desktop */
+  var lastMobile = isMobile();
+  window.addEventListener('resize', function () {
+    var m = isMobile();
+    if (m !== lastMobile) { lastMobile = m; buildSlides(); startTimer(); }
+  }, { passive: true });
+
+  fetch('/api/banners')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (!data.ok || !Array.isArray(data.banners) || data.banners.length === 0) return;
+      banners = data.banners;
+      section.style.display = '';
+      buildSlides();
+      startTimer();
+    })
+    .catch(function () { /* API falhou — seção permanece oculta */ });
+}());
+</script>
+</body>
+</html>

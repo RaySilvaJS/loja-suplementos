@@ -1,0 +1,777 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Finalizar Compra — POWER FIT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="/css/brand.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 140px;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* HEADER */
+    .co-hdr {
+      background: #fff;
+      border-bottom: 1px solid #E5E7EB;
+      padding: 0 16px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .co-hdr-back {
+      width: 36px; height: 36px; border: none; background: transparent;
+      cursor: pointer; border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; color: #374151; flex-shrink: 0;
+      transition: background .15s;
+    }
+    .co-hdr-back:hover { background: #F3F4F6; }
+    .co-hdr-title { font-size: 15px; font-weight: 700; color: #111827; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .co-hdr-lock {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 600; color: #16A34A; flex-shrink: 0; white-space: nowrap;
+    }
+
+    /* SHELL */
+    .co-shell {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 16px 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* SECTION CARD */
+    .co-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .co-card-hdr {
+      padding: 14px 18px 10px;
+      font-size: 15px; font-weight: 700; color: #111827;
+      border-bottom: 1px solid #F3F4F6;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .co-card-hdr svg { color: #6B7280; flex-shrink: 0; }
+    .co-card-hdr .co-step-badge {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--blue); color: #fff;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .co-card-body { padding: 14px 18px; }
+
+    /* PRODUCT PREVIEW */
+    .co-product {
+      display: flex; gap: 12px; align-items: center;
+      padding: 14px 18px;
+    }
+    .co-product img {
+      width: 62px; height: 62px; object-fit: contain;
+      border: 1px solid #E5E7EB; border-radius: 8px; background: #FAFAFA;
+      padding: 4px; flex-shrink: 0;
+    }
+    .co-product-info { flex: 1; min-width: 0; }
+    .co-product-name {
+      font-size: 13px; font-weight: 600; color: #111827;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+    .co-product-qty { font-size: 12px; color: #6B7280; }
+    .co-product-price { font-size: 15px; font-weight: 800; color: #111827; flex-shrink: 0; }
+
+    /* ADDRESS INLINE FORM */
+    .co-addr-form {
+      display: grid;
+      gap: 10px;
+    }
+    .co-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .co-field label {
+      font-size: 11px; font-weight: 700; color: #374151;
+      text-transform: uppercase; letter-spacing: .4px;
+    }
+    .co-field input {
+      padding: 11px 13px;
+      border: 1.5px solid #D1D5DB; border-radius: 8px;
+      color: #111827; font-size: 14px; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      background: #fff;
+      width: 100%;
+    }
+    .co-field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(233,138,166,.2); }
+    .co-field input::placeholder { color: #D1D5DB; }
+    .co-field input[readonly] { background: #F8FAFC; color: #374151; cursor: default; }
+    .co-field input.co-field-ok { border-color: #16A34A; background: #F0FDF4; }
+    .co-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .co-row3 { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
+
+    /* CEP field with spinner */
+    .co-cep-wrap { position: relative; }
+    .co-cep-wrap input { padding-right: 40px; }
+    .co-cep-spinner {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      width: 16px; height: 16px;
+      border: 2px solid var(--border); border-top-color: var(--blue);
+      border-radius: 50%; animation: coSpin .7s linear infinite;
+      display: none;
+    }
+    .co-cep-spinner.active { display: block; }
+
+    /* Address options (when user has saved addresses) */
+    .co-addr-opt {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 12px 14px; border: 1.5px solid #E5E7EB; border-radius: 10px;
+      cursor: pointer; margin-bottom: 8px; transition: all .15s;
+    }
+    .co-addr-opt:last-of-type { margin-bottom: 0; }
+    .co-addr-opt.selected { border-color: var(--blue); background: var(--blue-light); }
+    .co-addr-opt input[type=radio] { margin-top: 2px; accent-color: var(--blue); flex-shrink: 0; }
+    .co-addr-name { font-weight: 700; font-size: 13px; color: #111827; }
+    .co-addr-badge {
+      display: inline-block; margin-left: 6px; padding: 1px 6px;
+      background: var(--blue-light); color: var(--rose-dark); border-radius: 4px;
+      font-size: 10px; font-weight: 700;
+    }
+    .co-addr-line { font-size: 12px; color: #6B7280; margin-top: 2px; line-height: 1.4; }
+    .co-add-addr-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-top: 12px; color: var(--blue-dark); font-size: 13px; font-weight: 600;
+      cursor: pointer; background: none; border: none; padding: 0;
+    }
+    .co-add-addr-link:hover { text-decoration: underline; }
+
+    /* New address form (collapsible) */
+    #co-new-addr-form {
+      display: none;
+      margin-top: 14px;
+      padding: 16px;
+      background: #F8FAFC;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+    }
+    #co-new-addr-form.open { display: block; }
+
+    /* CEP / FRETE */
+    .co-cep-row { display: flex; gap: 8px; margin-bottom: 4px; }
+    .co-cep-input {
+      flex: 1; padding: 10px 13px;
+      border: 1.5px solid #D1D5DB; border-radius: 8px;
+      color: #111827; font-size: 14px; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .co-cep-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(233,138,166,.2); }
+    .co-cep-input::placeholder { color: #D1D5DB; }
+    .co-calc-btn {
+      padding: 10px 16px; background: var(--blue); color: #fff;
+      border: none; border-radius: 8px; cursor: pointer;
+      font-size: 13px; font-weight: 600; white-space: nowrap;
+      transition: background .15s;
+    }
+    .co-calc-btn:hover { background: var(--blue-dark); }
+    .co-cep-hint { font-size: 11px; color: #9CA3AF; margin-top: 4px; }
+
+    /* SHIPPING OPTIONS */
+    .co-ship-opt {
+      display: flex; align-items: center; gap: 12px;
+      padding: 13px 14px; border: 1.5px solid #E5E7EB; border-radius: 10px;
+      cursor: pointer; margin-bottom: 8px; transition: all .15s;
+    }
+    .co-ship-opt:last-child { margin-bottom: 0; }
+    .co-ship-opt.selected { border-color: var(--blue); background: var(--blue-light); }
+    .co-ship-opt input[type=radio] { accent-color: var(--blue); flex-shrink: 0; }
+    .co-ship-icon {
+      width: 34px; height: 34px; background: #F1F5F9; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .co-ship-info { flex: 1; }
+    .co-ship-name { font-size: 13px; font-weight: 700; color: #111827; }
+    .co-ship-eta  { font-size: 12px; color: #6B7280; margin-top: 1px; }
+    .co-ship-price { font-size: 15px; font-weight: 800; color: #111827; }
+    .co-ship-free  { font-size: 15px; font-weight: 800; color: #16A34A; }
+
+    /* PAYMENT METHODS */
+    .co-pay-opt {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border: 1.5px solid #E5E7EB; border-radius: 10px;
+      cursor: pointer; margin-bottom: 8px; transition: all .15s; background: #fff;
+    }
+    .co-pay-opt:last-child { margin-bottom: 0; }
+    .co-pay-opt.selected { border-color: var(--blue); background: var(--blue-light); }
+    .co-pay-opt input[type=radio] { accent-color: var(--blue); flex-shrink: 0; }
+    .co-pay-logo {
+      width: 40px; height: 40px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 18px; font-weight: 900;
+    }
+    .co-pay-logo.pix    { background: #00BFA5; color: #fff; }
+    .co-pay-logo.card   { background: #111827; color: #fff; }
+    .co-pay-logo.boleto { background: #F59E0B; color: #fff; font-size: 20px; }
+    .co-pay-label { font-size: 14px; font-weight: 700; color: #111827; }
+    .co-pay-sub   { font-size: 12px; color: #6B7280; margin-top: 1px; }
+    .co-pay-badge {
+      margin-left: auto; background: #DCFCE7; color: #16A34A;
+      font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+    }
+
+    /* CARD FORM */
+    #co-card-form {
+      display: none;
+      margin-top: 14px; padding: 16px; background: #F8FAFC;
+      border-radius: 10px; border: 1px solid #E5E7EB;
+    }
+    #co-card-form.visible { display: block; }
+    .co-form-row { display: flex; gap: 10px; }
+    .co-form-field { flex: 1; display: flex; flex-direction: column; margin-bottom: 12px; }
+    .co-form-field:last-child { margin-bottom: 0; }
+    .co-form-field label { font-size: 11px; font-weight: 700; color: #374151; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .4px; }
+    .co-form-field input {
+      padding: 11px 13px; border: 1.5px solid #D1D5DB;
+      border-radius: 8px; color: #111827; font-size: 14px; outline: none;
+      transition: border-color .15s;
+    }
+    .co-form-field input:focus { border-color: var(--blue); }
+    .co-form-field input::placeholder { color: #D1D5DB; }
+
+    /* FATURAMENTO */
+    .co-billing-line {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-bottom: 1px solid #F3F4F6; font-size: 13px;
+    }
+    .co-billing-line:last-child { border-bottom: none; }
+    .co-billing-key { color: #6B7280; }
+    .co-billing-val { font-weight: 600; color: #111827; }
+
+    /* COUPON */
+    .co-coupon-row { display: flex; gap: 8px; margin-bottom: 14px; }
+    .co-coupon-input {
+      flex: 1; padding: 10px 13px;
+      border: 1.5px solid #D1D5DB; border-radius: 8px;
+      color: #111827; font-size: 13px; outline: none;
+      transition: border-color .15s;
+      text-transform: uppercase;
+    }
+    .co-coupon-input:focus { border-color: var(--blue); }
+    .co-coupon-input::placeholder { text-transform: none; color: #D1D5DB; }
+    .co-coupon-btn {
+      padding: 10px 14px; background: #F1F5F9; color: #374151;
+      border: 1.5px solid #E5E7EB; border-radius: 8px; cursor: pointer;
+      font-size: 13px; font-weight: 600; white-space: nowrap;
+      transition: all .15s;
+    }
+    .co-coupon-btn:hover { background: #E5E7EB; }
+
+    /* SUMMARY ROWS */
+    .co-sum-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; font-size: 13px; color: #6B7280;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    .co-sum-row:last-child { border-bottom: none; }
+    .co-sum-row.total {
+      padding-top: 13px; margin-top: 2px;
+      font-size: 16px; font-weight: 800; color: #111827;
+      border-top: 1.5px solid #E5E7EB; border-bottom: none;
+    }
+    .co-sum-val { font-weight: 600; color: #111827; }
+    .co-sum-val.free { color: #16A34A; }
+    .co-savings {
+      background: #F0FDF4; border-radius: 8px; padding: 10px 14px;
+      font-size: 13px; color: #16A34A; font-weight: 600; margin-top: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* PIX DISCOUNT */
+    .co-pix-disc {
+      background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px;
+      padding: 10px 14px; font-size: 13px; color: #059669; font-weight: 600;
+      margin-top: 10px; display: none; align-items: center; gap: 6px;
+    }
+    .co-pix-disc.visible { display: flex; }
+
+    /* TRUST BADGES */
+    .co-trust-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 14px 18px;
+      border-top: 1px solid #F3F4F6;
+    }
+    .co-trust-item {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 11px; font-weight: 600; color: #374151;
+    }
+    .co-trust-item svg { color: #16A34A; flex-shrink: 0; }
+
+    /* STICKY CTA */
+    .co-cta-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #fff; border-top: 1px solid #E5E7EB;
+      padding: 12px 16px env(safe-area-inset-bottom, 0);
+      z-index: 50;
+    }
+    .co-cta-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .co-pay-btn {
+      display: flex; width: 100%; align-items: center; justify-content: center; gap: 8px;
+      padding: 17px; background: #16A34A; color: #fff;
+      border: none; border-radius: 12px; cursor: pointer;
+      font-size: 17px; font-weight: 800; transition: background .15s, opacity .15s;
+      letter-spacing: -.01em;
+    }
+    .co-pay-btn:hover:not([disabled]) { background: #15803D; }
+    .co-pay-btn[disabled] { opacity: .45; cursor: not-allowed; background: #6B7280; }
+    .co-cta-trust {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-top: 7px;
+      font-size: 11px; color: #9CA3AF; font-weight: 500;
+    }
+    .co-cta-trust span { display: flex; align-items: center; gap: 3px; }
+
+    /* SAVE ADDR BTN */
+    .co-save-addr-btn {
+      width: 100%; padding: 13px; background: var(--blue); color: #fff;
+      border: none; border-radius: 10px; cursor: pointer;
+      font-size: 14px; font-weight: 700; margin-top: 14px;
+      transition: background .15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .co-save-addr-btn:hover { background: var(--blue-dark); }
+    .co-save-addr-btn[disabled] { opacity: .5; cursor: not-allowed; }
+
+    /* LOADER */
+    .co-spinner {
+      width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,.4);
+      border-top-color: #fff; border-radius: 50%;
+      animation: coSpin .7s linear infinite; display: inline-block; vertical-align: middle;
+    }
+    .co-spinner.dark {
+      border-color: var(--border);
+      border-top-color: var(--blue);
+    }
+    @keyframes coSpin { to { transform: rotate(360deg); } }
+
+    /* MUTED */
+    .co-muted { font-size: 13px; color: #6B7280; margin: 0; }
+    .co-info-placeholder { padding: 10px 0; text-align: center; }
+
+    /* SUCCESS BADGE */
+    .co-addr-saved-badge {
+      display: none; align-items: center; gap: 6px;
+      padding: 10px 14px; background: #F0FDF4; border: 1px solid #86EFAC;
+      border-radius: 8px; font-size: 13px; font-weight: 600; color: #16A34A;
+      margin-top: 10px;
+    }
+    .co-addr-saved-badge.visible { display: flex; }
+
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      .co-product-name { font-size: 12px; }
+      .co-row2, .co-row3 { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script src="/js/meta-pixel.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="co-hdr">
+  <button class="co-hdr-back" onclick="history.back()" aria-label="Voltar">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+  </button>
+  <span class="co-hdr-title">Finalizar Compra</span>
+  <div class="co-hdr-lock">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Site seguro
+  </div>
+</header>
+
+<!-- STEPS BAR -->
+<div style="background:#fff;border-bottom:1px solid #E5E7EB;padding:12px 16px;">
+  <div style="max-width:640px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:0;">
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#16A34A;">
+      <div style="width:22px;height:22px;border-radius:50%;background:#16A34A;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">✓</div>
+      <span>Carrinho</span>
+    </div>
+    <div style="flex:1;height:2px;background:#16A34A;margin:0 8px;min-width:24px;"></div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--blue);">
+      <div style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">2</div>
+      <span>Checkout</span>
+    </div>
+    <div style="flex:1;height:2px;background:#E5E7EB;margin:0 8px;min-width:24px;"></div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#9CA3AF;">
+      <div style="width:22px;height:22px;border-radius:50%;background:#E5E7EB;color:#9CA3AF;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">3</div>
+      <span>Pagamento</span>
+    </div>
+  </div>
+</div>
+
+<div class="co-shell">
+
+  <!-- 1. PRODUTOS -->
+  <div class="co-card" id="co-items-card">
+    <div class="co-card-hdr">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Seus produtos
+    </div>
+    <div id="co-items-list"></div>
+    <p id="co-items-empty" class="co-muted" style="padding:14px 18px;display:none;">Carrinho vazio. <a href="/" style="color:var(--blue-dark);">Voltar à loja →</a></p>
+  </div>
+
+  <!-- 2. ENDEREÇO DE ENTREGA -->
+  <div class="co-card">
+    <div class="co-card-hdr">
+      <span class="co-step-badge">1</span>
+      Endereço de entrega
+    </div>
+    <div class="co-card-body">
+
+      <!-- Lista de endereços salvos -->
+      <div id="co-addr-list">
+        <div class="co-info-placeholder"><span class="co-spinner dark"></span></div>
+      </div>
+
+      <!-- Botão para adicionar novo endereço (visível quando já tem endereços) -->
+      <button class="co-add-addr-link" id="co-show-new-addr-btn" style="display:none" onclick="toggleNewAddrForm()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Adicionar outro endereço
+      </button>
+
+      <!-- Formulário de endereço inline (novo endereço / sem endereços) -->
+      <div id="co-new-addr-form">
+        <div class="co-addr-form">
+
+          <!-- Nome do endereço -->
+          <div class="co-field">
+            <label>Nome do endereço</label>
+            <input id="addr-nome" type="text" placeholder="Ex: Casa, Trabalho..." autocomplete="off"/>
+          </div>
+
+          <!-- CEP com auto-fill -->
+          <div class="co-field">
+            <label>CEP</label>
+            <div class="co-cep-wrap">
+              <input id="addr-cep" type="text" placeholder="00000-000" inputmode="numeric" maxlength="9" autocomplete="postal-code"/>
+              <span class="co-cep-spinner" id="addr-cep-spinner"></span>
+            </div>
+            <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" rel="noopener" style="font-size:11px;color:var(--blue-dark);margin-top:3px;display:inline-block">Não sei meu CEP</a>
+          </div>
+
+          <!-- Rua + Número -->
+          <div class="co-row3">
+            <div class="co-field">
+              <label>Número</label>
+              <input id="addr-numero" type="text" placeholder="123" inputmode="numeric"/>
+            </div>
+            <div class="co-field">
+              <label>Rua</label>
+              <input id="addr-rua" type="text" placeholder="Aguardando CEP..." readonly/>
+            </div>
+          </div>
+
+          <!-- Bairro + Complemento -->
+          <div class="co-row2">
+            <div class="co-field">
+              <label>Bairro</label>
+              <input id="addr-bairro" type="text" placeholder="Aguardando CEP..." readonly/>
+            </div>
+            <div class="co-field">
+              <label>Complemento <span style="font-weight:400;text-transform:none;font-size:10px">(opcional)</span></label>
+              <input id="addr-complemento" type="text" placeholder="Apto, bloco..."/>
+            </div>
+          </div>
+
+          <!-- Cidade + Estado -->
+          <div class="co-row2">
+            <div class="co-field">
+              <label>Cidade</label>
+              <input id="addr-cidade" type="text" placeholder="Aguardando CEP..." readonly/>
+            </div>
+            <div class="co-field">
+              <label>Estado</label>
+              <input id="addr-estado" type="text" placeholder="UF" readonly maxlength="2"/>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="co-addr-saved-badge" class="co-addr-saved-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Endereço salvo! Frete calculado automaticamente.
+        </div>
+
+        <button class="co-save-addr-btn" id="co-save-addr-btn" onclick="saveNewAddress()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Usar este endereço e calcular frete
+        </button>
+
+        <p id="co-addr-err" style="font-size:12px;color:#DC2626;margin:8px 0 0;display:none;"></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. FRETE (calculado automaticamente) -->
+  <div class="co-card" id="co-ship-card">
+    <div class="co-card-hdr">
+      <span class="co-step-badge">2</span>
+      Entrega
+    </div>
+    <div class="co-card-body">
+      <div id="co-ship-results">
+        <p class="co-muted">Informe o endereço acima para ver as opções de envio.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. MEIO DE PAGAMENTO -->
+  <div class="co-card">
+    <div class="co-card-hdr">
+      <span class="co-step-badge">3</span>
+      Forma de pagamento
+    </div>
+    <div class="co-card-body">
+
+      <!-- PIX -->
+      <div class="co-pay-opt selected" id="co-pix-opt" onclick="selectPayMethod('pix')">
+        <input type="radio" name="paymethod" value="pix" checked/>
+        <div class="co-pay-logo pix">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+            <path fill="white" d="M12 2C10 4 8.5 7 9 9.5L12 12L15 9.5C15.5 7 14 4 12 2Z"/>
+            <path fill="white" d="M22 12C20 10 17 8.5 14.5 9L12 12L14.5 15C17 15.5 20 14 22 12Z"/>
+            <path fill="white" d="M12 22C14 20 15.5 17 15 14.5L12 12L9 14.5C8.5 17 10 20 12 22Z"/>
+            <path fill="white" d="M2 12C4 14 7 15.5 9.5 15L12 12L9.5 9C7 8.5 4 10 2 12Z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="co-pay-label">PIX</div>
+          <div class="co-pay-sub">Pagamento instantâneo</div>
+        </div>
+        <div class="co-pay-badge">5% OFF</div>
+      </div>
+
+      <!-- Cartão de Crédito -->
+      <div class="co-pay-opt" id="co-card-opt" onclick="selectPayMethod('cartao')">
+        <input type="radio" name="paymethod" value="cartao"/>
+        <div class="co-pay-logo card">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none">
+            <rect x="1.5" y="4" width="21" height="16" rx="3" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5"/>
+            <rect x="1.5" y="8" width="21" height="3.5" fill="rgba(255,255,255,0.38)"/>
+            <rect x="3.5" y="13.5" width="5" height="3.5" rx="1" fill="rgba(255,255,255,0.55)" stroke="white" stroke-width="0.8"/>
+            <circle cx="12" cy="15.2" r="0.8" fill="white"/>
+            <circle cx="14" cy="15.2" r="0.8" fill="white"/>
+            <circle cx="16" cy="15.2" r="0.8" fill="white"/>
+            <circle cx="18" cy="15.2" r="0.8" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <div class="co-pay-label">Cartão de Crédito</div>
+          <div class="co-pay-sub">Visa, Mastercard, Elo, Amex</div>
+        </div>
+      </div>
+
+      <!-- Formulário do cartão -->
+      <div id="co-card-form">
+        <div class="co-form-field">
+          <label>Número do cartão</label>
+          <input id="card-number" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number"/>
+        </div>
+        <div class="co-form-field">
+          <label>Nome no cartão</label>
+          <input id="card-name" type="text" placeholder="Como está escrito no cartão" autocomplete="cc-name" style="text-transform:uppercase;"/>
+        </div>
+        <div class="co-form-row">
+          <div class="co-form-field">
+            <label>Validade</label>
+            <input id="card-expiry" type="text" inputmode="numeric" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp"/>
+          </div>
+          <div class="co-form-field">
+            <label>CVV</label>
+            <input id="card-cvv" type="text" inputmode="numeric" placeholder="123" maxlength="4" autocomplete="cc-csc"/>
+          </div>
+        </div>
+        <div class="co-form-field">
+          <label>Parcelas</label>
+          <select id="card-installments" style="padding:11px 13px;border:1.5px solid #D1D5DB;border-radius:8px;color:#111827;font-size:14px;outline:none;width:100%;background:#fff;transition:border-color .15s;">
+            <option value="1">1x — aguardando valor</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Boleto Bancário -->
+      <div class="co-pay-opt" id="co-boleto-opt" onclick="selectPayMethod('boleto')">
+        <input type="radio" name="paymethod" value="boleto"/>
+        <div class="co-pay-logo boleto">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+            <rect x="3" y="2" width="18" height="20" rx="2" fill="none" stroke="white" stroke-width="1.5"/>
+            <rect x="5.5" y="7"  width="1.5" height="10" fill="white"/>
+            <rect x="8"   y="7"  width="0.8" height="10" fill="white"/>
+            <rect x="9.5" y="7"  width="1.5" height="10" fill="white"/>
+            <rect x="12"  y="7"  width="0.8" height="10" fill="white"/>
+            <rect x="13.5" y="7" width="2"   height="10" fill="white"/>
+            <rect x="16.5" y="7" width="1"   height="10" fill="white"/>
+            <rect x="18.5" y="7" width="1"   height="10" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <div class="co-pay-label">Boleto Bancário</div>
+          <div class="co-pay-sub">Vence em 1 dia útil</div>
+        </div>
+      </div>
+
+      <!-- Desconto PIX visível -->
+      <div class="co-pix-disc" id="co-pix-disc-banner">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        💰 5% de desconto no PIX — você economiza <strong><span id="co-pix-economy"></span></strong>
+      </div>
+
+      <!-- Countdown PIX -->
+      <div id="co-pix-countdown-bar" style="background:linear-gradient(135deg,#065F46,#047857);color:#fff;border-radius:10px;padding:12px 16px;margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Desconto PIX reservado por:
+        </div>
+        <div style="font-size:20px;font-weight:900;letter-spacing:2px;font-variant-numeric:tabular-nums;" id="co-pix-countdown">15:00</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. FATURAMENTO -->
+  <div class="co-card" id="co-billing-card">
+    <div class="co-card-hdr">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Seus dados
+    </div>
+    <div class="co-card-body" id="co-billing-body">
+      <div class="co-info-placeholder"><span class="co-spinner dark"></span></div>
+    </div>
+  </div>
+
+  <!-- 6. RESUMO -->
+  <div class="co-card">
+    <div class="co-card-hdr">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Resumo da compra
+    </div>
+    <div class="co-card-body">
+      <!-- Cupom -->
+      <div class="co-coupon-row">
+        <input id="co-coupon" class="co-coupon-input" type="text" placeholder="Cupom de desconto (opcional)"/>
+        <button class="co-coupon-btn" onclick="applyCoupon()">Aplicar</button>
+      </div>
+      <p id="co-coupon-msg" style="font-size:12px;color:#DC2626;margin:-6px 0 12px;display:none;"></p>
+
+      <div class="co-sum-row">
+        <span>Produtos</span>
+        <span class="co-sum-val" id="co-subtotal">R$ 0,00</span>
+      </div>
+      <div class="co-sum-row" id="co-insurance-row" style="display:none">
+        <span id="co-insurance-label">Seguro</span>
+        <span class="co-sum-val" id="co-insurance-val">R$ 0,00</span>
+      </div>
+      <div class="co-sum-row" id="co-coupon-row" style="display:none">
+        <span>Cupom de desconto</span>
+        <span class="co-sum-val" style="color:#16A34A" id="co-coupon-val">- R$ 0,00</span>
+      </div>
+      <div class="co-sum-row">
+        <span>Frete</span>
+        <span class="co-sum-val" id="co-shipping-val">A calcular</span>
+      </div>
+      <div class="co-sum-row" id="co-pix-row" style="display:none">
+        <span>Desconto PIX (5%)</span>
+        <span class="co-sum-val" style="color:#059669" id="co-pix-val">- R$ 0,00</span>
+      </div>
+      <div class="co-sum-row total">
+        <span>Total</span>
+        <span id="co-total">R$ 0,00</span>
+      </div>
+      <div class="co-savings" id="co-savings-line" style="display:none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Você economizou <strong id="co-savings-amt"></strong> nesta compra!
+      </div>
+    </div>
+
+    <!-- Trust badges no card de resumo -->
+    <div class="co-trust-bar">
+      <div class="co-trust-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Compra protegida
+      </div>
+      <div class="co-trust-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10" stroke-width="2.5"/></svg>
+        SSL ativo
+      </div>
+      <div class="co-trust-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Atendimento WhatsApp
+      </div>
+      <div class="co-trust-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Dados protegidos LGPD
+      </div>
+    </div>
+  </div>
+
+</div><!-- /co-shell -->
+
+<!-- STICKY CTA -->
+<div class="co-cta-bar">
+  <div class="co-cta-inner">
+    <button id="co-pay-btn" class="co-pay-btn" disabled>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Finalizar Compra com Segurança
+    </button>
+    <p id="co-btn-hint" style="font-size:11px;color:#F59E0B;font-weight:600;text-align:center;margin:6px 0 0;display:none;"></p>
+    <div class="co-cta-trust">
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Pagamento 100% seguro
+      </span>
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        SSL criptografado
+      </span>
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Compra protegida
+      </span>
+    </div>
+  </div>
+</div>
+
+<script src="/js/cookie-consent.js"></script>
+<script src="/js/iab-detect.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/cart.js"></script>
+<script src="/js/checkout.js"></script>
+</body>
+</html>
