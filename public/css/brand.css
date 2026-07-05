@@ -1,21 +1,23 @@
-/* Identidade visual POWER FIT — dark fitness premium */
+/* Identidade visual — loja de suplementos, tema claro azul/ciano */
 :root {
-  --blue:       #C4F135;   /* verde-limão — cor principal de ação */
-  --blue-dark:  #A3C81A;   /* verde-limão escuro — hover */
-  --blue-light: #1A2B00;   /* fundo esverdeado escuro — hovers suaves */
-  --yellow:     #FF6B2B;   /* laranja — destaque secundário */
-  --yellow-dark:#E05A18;   /* laranja escuro — hover secundário */
-  --rose-dark:  #F5F5F5;   /* branco — texto forte */
-  --green:      #22C55E;   /* sucesso */
-  --red:        #EF4444;   /* erro / alerta */
-  --bg:         #0D0D0D;   /* fundo escuro principal */
-  --card:       #141414;   /* fundo de card */
-  --text:       #F5F5F5;   /* texto primário */
-  --text-2:     #9CA3AF;   /* texto secundário */
-  --muted:      #6B7280;   /* texto suave */
-  --border:     #2D2D2D;   /* bordas */
-  --shadow:     0 1px 3px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.4);
-  --shadow-md:  0 4px 16px rgba(0,0,0,.6);
+  --blue:       #00A5D8;   /* azul/ciano principal — cor de ação */
+  --blue-dark:  #007EA8;   /* azul escuro — hover/menus */
+  --blue-light: #EAF6FB;   /* azul bem claro — fundos/hovers suaves */
+  --yellow:     #00B5E8;   /* accent — destaques e CTAs secundários */
+  --yellow-dark:#0090B3;   /* accent escuro — hover */
+  --rose-dark:  #005D7A;   /* azul mais fechado — usado em faixas/estados escuros */
+  --green:      #27AE60;   /* sucesso */
+  --red:        #E53935;   /* erro / desconto forte */
+  --bg:         #FFFFFF;   /* fundo principal */
+  --card:       #FFFFFF;   /* fundo de card */
+  --text:       #1B1B1B;   /* texto primário */
+  --text-2:     #6E6E6E;   /* texto secundário */
+  --muted:      #6E6E6E;   /* texto suave */
+  --border:     #E5E5E5;   /* bordas */
+  --shadow:     0 1px 3px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.06);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.12);
   --radius:     10px;
-  --green-bg:   #1A2B00;
+  --green-bg:   #EAF6FB;
+  --surface:    #F6F7F8;   /* fundo de seções alternadas */
+  --black:      #151515;   /* barra superior / footer */
 }

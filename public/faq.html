@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/css/brand.css">
 <style>
 :root {
-  --shadow: 0 1px 3px rgba(233,138,166,.08), 0 4px 16px rgba(233,138,166,.06);
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { overflow-x: hidden; width: 100%; }
@@ -36,7 +36,7 @@ a { text-decoration: none; color: inherit; }
   height: 60px;
 }
 .logo { font-size: 20px; font-weight: 800; color: #fff; }
-.logo span { color: var(--yellow); }
+.logo span { color: #fff; opacity: .8; }
 .nav-links { display: flex; align-items: center; gap: 20px; }
 .nav-links a { color: rgba(255,255,255,.8); font-size: 13px; font-weight: 500; transition: color .2s; }
 .nav-links a:hover { color: #fff; }
@@ -53,7 +53,7 @@ a { text-decoration: none; color: inherit; }
 
 /* HERO */
 .hero {
-  background: linear-gradient(135deg, var(--rose-dark) 0%, #3D1526 100%);
+  background: linear-gradient(135deg, var(--rose-dark) 0%, #051923 100%);
   color: #fff;
   padding: 60px 24px;
   text-align: center;
@@ -127,7 +127,7 @@ a { text-decoration: none; color: inherit; }
   overflow: hidden;
   transition: box-shadow .2s;
 }
-.accordion-item.open { box-shadow: 0 4px 20px rgba(233,138,166,.15); border-color: rgba(233,138,166,.3); }
+.accordion-item.open { box-shadow: 0 4px 20px rgba(0,165,216,.15); border-color: rgba(0,165,216,.3); }
 
 .accordion-btn {
   width: 100%;
@@ -159,7 +159,7 @@ a { text-decoration: none; color: inherit; }
   flex-shrink: 0;
   transition: transform .3s, background .2s;
 }
-.accordion-item.open .accordion-icon { background: rgba(233,138,166,.1); }
+.accordion-item.open .accordion-icon { background: rgba(0,165,216,.1); }
 .accordion-item.open .accordion-icon svg { transform: rotate(180deg); color: var(--rose-dark); }
 .accordion-icon svg { transition: transform .3s, color .2s; color: var(--muted); }
 
@@ -182,7 +182,7 @@ a { text-decoration: none; color: inherit; }
 
 /* CTA */
 .cta-block {
-  background: linear-gradient(135deg, var(--blue-light), #F8B4C5);
+  background: linear-gradient(135deg, var(--blue-light), rgba(0,165,216,.25));
   border-radius: var(--radius);
   padding: 36px 32px;
   text-align: center;

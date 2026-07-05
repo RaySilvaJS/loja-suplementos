@@ -12,7 +12,7 @@
 <style>
 :root {
   --green-light: #f0fff4;
-  --shadow: 0 1px 3px rgba(233,138,166,.08), 0 4px 16px rgba(233,138,166,.06);
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
 }
 *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 html, body { overflow-x: hidden; width: 100%; }
@@ -37,7 +37,7 @@ a { text-decoration: none; color: inherit; }
   height: 60px;
 }
 .logo { font-size: 20px; font-weight: 800; color: #fff; }
-.logo span { color: var(--yellow); }
+.logo span { color: #fff; opacity: .8; }
 .nav-links { display: flex; align-items: center; gap: 20px; }
 .nav-links a { color: rgba(255,255,255,.8); font-size: 13px; font-weight: 500; transition: color .2s; }
 .nav-links a:hover { color: #fff; }
@@ -54,7 +54,7 @@ a { text-decoration: none; color: inherit; }
 
 /* HERO */
 .hero {
-  background: linear-gradient(135deg, var(--rose-dark) 0%, #3D1526 100%);
+  background: linear-gradient(135deg, var(--rose-dark) 0%, #051923 100%);
   color: #fff;
   padding: 60px 24px;
   text-align: center;
@@ -181,7 +181,7 @@ a { text-decoration: none; color: inherit; }
 
 /* FAQ STRIP */
 .faq-strip {
-  background: linear-gradient(135deg, var(--blue-light), #F8B4C5);
+  background: linear-gradient(135deg, var(--blue-light), rgba(0,165,216,.25));
   border-radius: var(--radius);
   padding: 32px;
   display: flex;

@@ -18,8 +18,8 @@
   <link rel="stylesheet" href="/css/brand.css">
   <style>
     :root {
-      --shadow-sm:  0 1px 3px rgba(233,138,166,.07), 0 4px 16px rgba(233,138,166,.05);
-      --shadow-md:  0 8px 24px rgba(233,138,166,.15);
+      --shadow-sm:  0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+      --shadow-md:  0 8px 24px rgba(0,0,0,.12);
     }
     *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { margin: 0; width: 100%; max-width: 100%; overflow-x: hidden; }
@@ -47,7 +47,7 @@
       z-index: 100;
     }
     .site-logo { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -.01em; }
-    .site-logo span { color: var(--yellow); }
+    .site-logo span { color: #fff; opacity: .8; }
     .header-right { display: flex; align-items: center; gap: 10px; }
     .hdr-btn {
       display: inline-flex; align-items: center; gap: 7px;
@@ -58,8 +58,8 @@
     .hdr-btn:hover { transform: translateY(-1px); }
     .hdr-btn-outline { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.25); }
     .hdr-btn-outline:hover { background: rgba(255,255,255,.25); }
-    .hdr-btn-cart { background: var(--yellow); color: #1a1a2e; }
-    .hdr-btn-cart:hover { background: #D97706; }
+    .hdr-btn-cart { background: var(--blue-dark); color: #fff; }
+    .hdr-btn-cart:hover { background: var(--rose-dark); }
 
     /* ===== SHELL ===== */
     .page-shell { max-width: 1280px; margin: 0 auto; padding: 20px 20px 60px; }
@@ -190,7 +190,7 @@
       font-size: .75rem; font-weight: 600; color: var(--green);
     }
     .seller-verified svg { flex-shrink: 0; stroke: var(--green); }
-    .stars-filled { color: var(--yellow); letter-spacing: .05em; }
+    .stars-filled { color: #F59E0B; letter-spacing: .05em; }
     .review-anchor-link {
       display: inline-flex; align-items: center; gap: 5px; flex-wrap: wrap;
       font-size: .8rem; color: var(--blue); font-weight: 600;
@@ -299,8 +299,8 @@
       transition: transform .15s, background .2s, box-shadow .2s; width: 100%;
     }
     .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.12); }
-    .btn-primary { background: var(--yellow); color: #1a1a2e; }
-    .btn-primary:hover { background: #D97706; }
+    .btn-primary { background: var(--yellow); color: #fff; }
+    .btn-primary:hover { background: var(--yellow-dark); }
     .btn-secondary { background: var(--blue); color: #fff; }
     .btn-secondary:hover { background: var(--blue-dark); }
     .btn-ghost {
@@ -347,7 +347,7 @@
     .highlight-card {
       padding: 16px; border-radius: 14px;
       background: linear-gradient(160deg, #f8fbff 0%, #eff6ff 100%);
-      border: 1px solid rgba(233,138,166,.15);
+      border: 1px solid rgba(0,165,216,.15);
     }
     .highlight-card .h-icon {
       width: 40px; height: 40px; border-radius: 10px;
@@ -392,18 +392,18 @@
     .reviews-summary { display: flex; gap: 28px; align-items: center; margin-bottom: 24px; flex-wrap: wrap; }
     .reviews-big-score { text-align: center; }
     .reviews-big-score .score-num { font-size: 4rem; font-weight: 800; color: var(--text); line-height: 1; }
-    .reviews-big-score .score-stars { font-size: 1.3rem; color: var(--yellow); }
+    .reviews-big-score .score-stars { font-size: 1.3rem; color: #F59E0B; }
     .reviews-big-score .score-count { font-size: .85rem; color: var(--text-2); margin-top: 4px; }
     .reviews-bars { flex: 1; min-width: min(200px, 100%); max-width: 100%; display: flex; flex-direction: column; gap: 6px; }
     .bar-row { display: flex; align-items: center; gap: 10px; font-size: .82rem; }
     .bar-label { color: var(--text-2); width: 14px; text-align: right; flex-shrink: 0; }
     .bar-track { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
-    .bar-fill { height: 100%; background: var(--yellow); border-radius: 4px; transition: width .6s ease; }
+    .bar-fill { height: 100%; background: #F59E0B; border-radius: 4px; transition: width .6s ease; }
     .bar-count { color: var(--text-2); width: 34px; text-align: right; flex-shrink: 0; }
     .reviews-list { display: flex; flex-direction: column; gap: 16px; }
     .review-item { padding: 16px; border-radius: 14px; background: var(--bg); border: 1px solid var(--border); }
     .review-item-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
-    .review-stars { color: var(--yellow); font-size: .95rem; }
+    .review-stars { color: #F59E0B; font-size: .95rem; }
     .review-date { font-size: .8rem; color: var(--muted); margin-left: auto; }
     .review-text { font-size: .9rem; color: var(--text-2); line-height: 1.7; margin-bottom: 10px; word-break: break-word; overflow-wrap: anywhere; }
     .review-photos { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -648,63 +648,6 @@
       #product-skeleton { animation: none; }
     }
 
-    /* ===== POWER FIT — DARK FITNESS OVERRIDE ===== */
-    :root {
-      --surface-2: #1A1A1A;
-      --brand-glow: rgba(196,241,53,.1);
-      --brand-dark: #A3C81A;
-    }
-    body { background: var(--bg) !important; }
-    .card { background: var(--card) !important; border-color: var(--border) !important; }
-    .gallery-card { background: var(--card) !important; border-color: var(--border) !important; }
-    .gallery-main { background: #1A1A1A !important; }
-    .gallery-thumbs { background: var(--card) !important; border-color: var(--border) !important; }
-    .gallery-thumbs::-webkit-scrollbar-thumb { background: var(--border); }
-    .thumb-btn { background: #1A1A1A !important; border-color: var(--border) !important; }
-    .thumb-btn:hover, .thumb-btn.active { border-color: var(--blue) !important; }
-    .gallery-empty { background: #1A1A1A !important; }
-    .gallery-nav-btn { background: rgba(20,20,20,.9) !important; border-color: var(--border) !important; }
-    .gallery-nav-btn svg { stroke: var(--text) !important; }
-    .gallery-fab { background: rgba(20,20,20,.85) !important; }
-    .gallery-fab svg { stroke: var(--text) !important; }
-    .section { background: var(--card) !important; border-color: var(--border) !important; }
-    .highlight-card { background: #1A1A1A !important; border-color: var(--border) !important; }
-    .benefit-item { background: #1A1A1A !important; border-color: var(--border) !important; }
-    .variation-chip { background: #1A1A1A !important; border-color: var(--border) !important; }
-    .variation-chip.active, .variation-chip:hover { background: var(--brand-glow) !important; color: var(--blue) !important; border-color: var(--blue) !important; }
-    .var-color-card { background: #1A1A1A !important; border-color: var(--border) !important; }
-    .specs-table tr:nth-child(even) td, .specs-table tr:nth-child(even) th { background: #1A1A1A !important; }
-    .specs-table th, .specs-table td { border-color: var(--border) !important; }
-    .daily-badge { background: rgba(196,241,53,.08) !important; color: var(--blue) !important; }
-    .desc-toggle-btn { background: #1A1A1A !important; border-color: var(--border) !important; color: var(--blue) !important; }
-    .desc-toggle-btn:hover { background: var(--brand-glow) !important; }
-    .btn-primary { background: var(--blue) !important; color: #0D0D0D !important; }
-    .btn-primary:hover { background: var(--brand-dark) !important; }
-    .btn-secondary { background: var(--brand-glow) !important; color: var(--blue) !important; border: 1px solid rgba(196,241,53,.3) !important; }
-    .btn-secondary:hover { background: rgba(196,241,53,.15) !important; }
-    .badge-condition { background: var(--brand-glow) !important; color: var(--blue) !important; }
-    .review-anchor-link { color: var(--blue) !important; }
-    .review-anchor-link:hover { color: var(--brand-dark) !important; }
-    .section-title::before { background: var(--blue) !important; }
-    .sk-block { background: #1A1A1A !important; }
-    .sk-block::after { background: linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.04) 50%,rgba(255,255,255,0) 100%) !important; }
-    .sk-price { background: rgba(196,241,53,.1) !important; }
-    .ml-link-btn { background: var(--blue) !important; color: #0D0D0D !important; }
-    .ml-link-btn:hover { background: var(--brand-dark) !important; }
-    .ml-compare-card { background: var(--card) !important; border-color: var(--border) !important; }
-    .site-logo { color: #fff !important; }
-    .site-logo span { color: var(--blue) !important; }
-    .hdr-btn-outline { background: rgba(255,255,255,.07) !important; border-color: rgba(255,255,255,.15) !important; color: #fff !important; }
-    .hdr-btn-cart { background: var(--blue) !important; color: #0D0D0D !important; }
-    .hdr-btn-cart:hover { background: var(--brand-dark) !important; }
-    .shipping-badge { background: rgba(34,197,94,.1) !important; color: var(--success,#22C55E) !important; border-color: rgba(34,197,94,.25) !important; }
-    .price-discount-badge { background: rgba(34,197,94,.1) !important; color: var(--success,#22C55E) !important; border-color: rgba(34,197,94,.25) !important; }
-    .review-bubble { background: #1A1A1A !important; border-color: var(--border) !important; }
-    .related-card { background: var(--card) !important; border-color: var(--border) !important; }
-    .related-card:hover { border-color: var(--blue) !important; }
-    .related-card__name { color: var(--text) !important; }
-    .related-card:hover .related-card__name { color: var(--blue) !important; }
-
   </style>
   <script src="/js/meta-pixel.js"></script>
 </head>
@@ -772,11 +715,11 @@
   </div>
 
   <!-- FOOTER LEGAL -->
-  <footer style="background:#0A0A0A;color:#6B7280;padding:20px 20px 32px;margin-top:32px;font-size:12px;line-height:1.7;border-top:1px solid #1E1E1E;">
+  <footer style="background:#151515;color:rgba(255,255,255,.65);padding:20px 20px 32px;margin-top:32px;font-size:12px;line-height:1.7;border-top:1px solid rgba(255,255,255,.12);">
     <div style="max-width:1200px;margin:0 auto;">
       <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;margin-bottom:16px;">
         <div>
-          <strong style="color:#C4F135;font-size:16px;font-weight:900;letter-spacing:-.02em;">POWER<span style="color:#fff">FIT</span></strong>
+          <strong style="color:#00A5D8;font-size:16px;font-weight:900;letter-spacing:-.02em;">POWER<span style="color:#fff">FIT</span></strong>
           <p style="margin:6px 0 0;">CNPJ: 10.832.644/0001-08 — Growth Supplements Produtos Alimentícios LTDA</p>
           <p>Av. Wilson Lemos, 2850, Galpão 18, 19, 22, 23, 24 e 27, Santa Luzia - Tijucas - SC - CEP 88200-958</p>
         </div>
@@ -787,13 +730,13 @@
         </div>
         <div>
           <p><strong style="color:#9CA3AF;">Links</strong></p>
-          <p><a href="/" style="color:#6B7280;text-decoration:none;">Voltar à loja</a></p>
-          <p><a href="/faq.html" style="color:#6B7280;text-decoration:none;">Perguntas Frequentes</a></p>
-          <p><a href="/trocas.html" style="color:#6B7280;text-decoration:none;">Trocas e Devoluções</a></p>
-          <p><a href="/termos.html" style="color:#6B7280;text-decoration:none;">Termos de Uso</a></p>
+          <p><a href="/" style="color:rgba(255,255,255,.65);text-decoration:none;">Voltar à loja</a></p>
+          <p><a href="/faq.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Perguntas Frequentes</a></p>
+          <p><a href="/trocas.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Trocas e Devoluções</a></p>
+          <p><a href="/termos.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Termos de Uso</a></p>
         </div>
       </div>
-      <div style="border-top:1px solid #1E1E1E;padding-top:14px;text-align:center;">
+      <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:14px;text-align:center;">
         <p>© 2026 Growth Supplements Produtos Alimentícios LTDA — Todos os direitos reservados.</p>
         <p style="margin-top:4px;">Imagens meramente ilustrativas. Preços sujeitos a alteração sem aviso prévio.</p>
       </div>
