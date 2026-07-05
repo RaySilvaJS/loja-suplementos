@@ -131,7 +131,7 @@ header{position:sticky;top:0;z-index:999;background:var(--brand);border-bottom:1
 .banners-viewport{overflow:hidden}
 .banners-track{display:flex;transition:transform .42s cubic-bezier(.4,0,.2,1);will-change:transform}
 .banner-slide{flex:0 0 100%;min-width:0;position:relative}
-.banner-slide>a,.banner-slide>img{display:block;width:100%;aspect-ratio:3/1;min-height:200px;max-height:400px;object-fit:cover}
+.banner-slide>a,.banner-slide>img{display:block;width:100%;aspect-ratio:3/1;max-height:400px;object-fit:cover}
 .banners-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:10}
 .banners-arrow:hover{background:rgba(0,0,0,.95)}
 .banners-arrow--prev{left:14px}
@@ -357,6 +357,7 @@ header{position:sticky;top:0;z-index:999;background:var(--brand);border-bottom:1
   .footer-top{grid-template-columns:1fr 1fr}
   .kits-grid{grid-template-columns:repeat(2,1fr)}
   .objectives-grid{grid-template-columns:repeat(2,1fr)}
+  .banner-slide>a,.banner-slide>img{aspect-ratio:12/5;max-height:220px}
 }
 @media(max-width:480px){
   #products-grid{grid-template-columns:1fr 1fr;gap:8px}
