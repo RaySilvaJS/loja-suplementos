@@ -129,7 +129,7 @@ header{position:sticky;top:0;z-index:999;background:var(--brand);border-bottom:1
 /* ===== BANNERS SECTION ===== */
 .banners-section{position:relative}
 .banners-viewport{overflow:hidden}
-.banners-track{display:flex;transition:transform .42s cubic-bezier(.4,0,.2,1)}
+.banners-track{display:flex;transition:transform .42s cubic-bezier(.4,0,.2,1);will-change:transform}
 .banner-slide{flex:0 0 100%;min-width:0;position:relative}
 .banner-slide>a,.banner-slide>img{display:block;width:100%;aspect-ratio:3/1;min-height:200px;max-height:400px;object-fit:cover}
 .banners-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:10}
@@ -139,6 +139,7 @@ header{position:sticky;top:0;z-index:999;background:var(--brand);border-bottom:1
 .banners-dots{display:flex;justify-content:center;gap:6px;padding:10px 0 4px}
 .banners-dot{width:7px;height:7px;border-radius:50%;background:rgba(0,165,216,.25);border:none;padding:0;cursor:pointer;transition:background .2s,transform .2s,width .2s;flex-shrink:0;-webkit-tap-highlight-color:transparent}
 .banners-dot.active{background:var(--brand);transform:scale(1.3);width:18px;border-radius:4px}
+@media (max-width:640px){.banners-arrow{display:none!important}}
 
 /* ===== SECTION SPACING ===== */
 .section{padding:52px 0}
@@ -921,6 +922,155 @@ header{position:sticky;top:0;z-index:999;background:var(--brand);border-bottom:1
     else hf.style.display = '';
   });
   obs.observe(bs, {attributes:true, attributeFilter:['style']});
+})();
+</script>
+
+<script>
+(function () {
+  const section = document.getElementById('banners-section');
+  const track = document.getElementById('banners-track');
+  const dotsEl = document.getElementById('banners-dots');
+  const prevBtn = document.getElementById('banners-prev');
+  const nextBtn = document.getElementById('banners-next');
+  if (!section || !track || !dotsEl) return;
+
+  let banners = [];
+  let current = 0;
+  let timer = null;
+
+  function isMobile() {
+    return window.innerWidth < 768;
+  }
+
+  function escHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, function (char) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
+    });
+  }
+
+  function safeHref(value) {
+    const href = String(value || '').trim();
+    if (!href || /^javascript:/i.test(href) || /^data:/i.test(href)) return '#';
+    return href;
+  }
+
+  function renderBanners() {
+    track.innerHTML = '';
+    dotsEl.innerHTML = '';
+
+    if (!banners.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    banners.forEach(function (banner, index) {
+      const src = (isMobile() && banner.imageMobile) ? banner.imageMobile : (banner.imageDesktop || banner.imageMobile || '');
+      if (!src) return;
+
+      const slide = document.createElement('div');
+      slide.className = 'banner-slide';
+      slide.setAttribute('role', 'group');
+      slide.setAttribute('aria-label', escHtml(banner.name || 'Banner promocional'));
+
+      const alt = escHtml(banner.alt || banner.title || banner.name || 'Banner promocional');
+      const href = safeHref(banner.href);
+      const rel = banner.target === '_blank' ? ' rel="noopener noreferrer"' : '';
+      const target = banner.target || '_self';
+      const loading = index === 0 ? 'eager' : 'lazy';
+
+      if (href && href !== '#') {
+        slide.innerHTML = '<a href="' + escHtml(href) + '" target="' + escHtml(target) + '"' + rel + ' aria-label="' + alt + '"><img src="' + escHtml(src) + '" alt="' + alt + '" loading="' + loading + '"></a>';
+      } else {
+        slide.innerHTML = '<img src="' + escHtml(src) + '" alt="' + alt + '" loading="' + loading + '">';
+      }
+
+      track.appendChild(slide);
+
+      const dot = document.createElement('button');
+      dot.className = 'banners-dot' + (index === 0 ? ' active' : '');
+      dot.type = 'button';
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', 'Banner ' + (index + 1));
+      dot.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+      dot.addEventListener('click', function () {
+        current = index;
+        updateCarousel();
+      });
+      dotsEl.appendChild(dot);
+    });
+
+    if (prevBtn && nextBtn) {
+      prevBtn.style.display = banners.length > 1 ? '' : 'none';
+      nextBtn.style.display = banners.length > 1 ? '' : 'none';
+    }
+
+    section.style.display = '';
+    current = 0;
+    updateCarousel();
+    startAutoplay();
+  }
+
+  function updateCarousel() {
+    if (!track.children.length) return;
+    const visible = track.children.length;
+    current = ((current % visible) + visible) % visible;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    Array.from(dotsEl.children).forEach(function (dot, index) {
+      const active = index === current;
+      dot.classList.toggle('active', active);
+      dot.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+  }
+
+  function nextSlide() {
+    current = (current + 1) % track.children.length;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    current = (current - 1 + track.children.length) % track.children.length;
+    updateCarousel();
+  }
+
+  function startAutoplay() {
+    clearInterval(timer);
+    if (track.children.length > 1) {
+      timer = setInterval(nextSlide, 5000);
+    }
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function () {
+    prevSlide();
+    startAutoplay();
+  });
+  if (nextBtn) nextBtn.addEventListener('click', function () {
+    nextSlide();
+    startAutoplay();
+  });
+
+  let lastMobile = isMobile();
+  window.addEventListener('resize', function () {
+    const mobile = isMobile();
+    if (mobile !== lastMobile) {
+      lastMobile = mobile;
+      renderBanners();
+    }
+  });
+
+  fetch('/api/banners')
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      if (!data.ok || !Array.isArray(data.banners)) return;
+      banners = data.banners.filter(function (banner) {
+        return banner && (banner.imageDesktop || banner.imageMobile);
+      });
+      renderBanners();
+    })
+    .catch(function () {
+      section.style.display = 'none';
+    });
 })();
 </script>
 
