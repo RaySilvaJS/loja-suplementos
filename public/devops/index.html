@@ -903,6 +903,20 @@ tbody tr:last-child td { border-bottom: none; }
         </div>
       </div>
       <div class="card">
+        <h3>Identidade do Site</h3>
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:6px">Nome do site</label>
+        <input id="site-name-input" class="input" style="width:100%;margin-bottom:14px" placeholder="POWER FIT">
+
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:6px">Logo</label>
+        <div id="site-logo-preview" style="display:none;margin-bottom:10px">
+          <img id="site-logo-preview-img" style="height:40px;max-width:200px;object-fit:contain">
+        </div>
+        <input type="file" accept="image/jpeg,image/png,image/webp" onchange="siteLogoUpload(this)">
+        <div id="site-logo-status" style="display:none;font-size:12px;margin-top:6px"></div>
+
+        <button class="btn btn-primary" style="margin-top:14px" onclick="saveSiteConfig()">Salvar</button>
+      </div>
+      <div class="card">
         <h3>Gerenciar Usuários</h3>
         <div class="table-wrap">
           <table>
@@ -3309,6 +3323,7 @@ async function loadSettings() {
     api.get('/api/admin/system/info'),
     api.get('/api/admin/users')
   ]);
+  loadSiteConfigPanel();
 
   if (maint) {
     const tog = document.getElementById('maintenance-toggle');
@@ -3358,6 +3373,57 @@ async function toggleMaintenance() {
 async function setRole(id, role) {
   const r = await api.put(`/api/admin/users/${id}/role`, { role });
   if (!r?.ok) alert(r?.error || 'Erro ao alterar role.');
+}
+
+let currentSiteConfig = { siteName: 'POWER FIT', logoUrl: '' };
+
+async function loadSiteConfigPanel() {
+  const cfg = await api.get('/api/admin/site-config');
+  if (cfg) {
+    currentSiteConfig = cfg;
+    document.getElementById('site-name-input').value = cfg.siteName || '';
+    const prev = document.getElementById('site-logo-preview');
+    if (cfg.logoUrl) {
+      document.getElementById('site-logo-preview-img').src = cfg.logoUrl;
+      prev.style.display = 'block';
+    } else prev.style.display = 'none';
+  }
+}
+
+async function siteLogoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const maxMb = 5;
+  if (file.size > maxMb * 1024 * 1024) { alert(`Arquivo muito grande. Máximo ${maxMb}MB.`); input.value = ''; return; }
+  const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+  if (!allowed.includes(file.type)) { alert('Formato inválido. Use JPG, PNG ou WEBP.'); input.value = ''; return; }
+
+  const statusEl = document.getElementById('site-logo-status');
+  statusEl.style.display = 'block';
+  statusEl.textContent = '⏳ Enviando...';
+  statusEl.style.color = 'var(--muted)';
+
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const fname = `site_logo_${Date.now()}.${ext}`;
+    const d = await api.post('/api/admin/upload', { dataUrl: ev.target.result, filename: fname });
+    if (!d?.success) { statusEl.textContent = '❌ Erro: ' + (d?.error || 'falha no upload'); statusEl.style.color = 'var(--red)'; return; }
+    currentSiteConfig.logoUrl = d.url;
+    document.getElementById('site-logo-preview-img').src = d.url;
+    document.getElementById('site-logo-preview').style.display = 'block';
+    statusEl.textContent = '✅ Upload concluído';
+    statusEl.style.color = 'var(--green)';
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+async function saveSiteConfig() {
+  const siteName = document.getElementById('site-name-input').value.trim();
+  const r = await api.post('/api/admin/site-config', { siteName, logoUrl: currentSiteConfig.logoUrl || '' });
+  if (r?.ok) alert('✅ Identidade do site salva! As páginas do site vão refletir a mudança no próximo carregamento.');
+  else alert(r?.error || 'Erro ao salvar.');
 }
 
 // ═══════════════════════════════════════════════

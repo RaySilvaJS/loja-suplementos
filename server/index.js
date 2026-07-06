@@ -216,6 +216,12 @@ app.get('/api/banners', (req, res) => {
   res.json({ ok: true, banners: active });
 });
 
+// Public site config API — nome do site e logo, lidos por todas as páginas
+app.get('/api/site-config', (req, res) => {
+  const cfg = loadConfig();
+  res.json(cfg.siteConfig || { siteName: 'POWER FIT', logoUrl: '' });
+});
+
 // Rotas Administrativas - Movidas para cima para garantir prioridade
 app.post('/api/admin/product', requireAdmin, (req, res) => {
   const products = loadProducts();

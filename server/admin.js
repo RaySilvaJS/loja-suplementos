@@ -811,6 +811,27 @@ router.post('/pix-config', adminAuth, (req, res) => {
 });
 
 // ════════════════════════════════════════════════════════════════════════════
+// ── SITE CONFIG (nome do site / logo) ──────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════════
+
+router.get('/site-config', adminAuth, (req, res) => {
+  const cfg = loadConfig();
+  res.json(cfg.siteConfig || { siteName: 'POWER FIT', logoUrl: '' });
+});
+
+router.post('/site-config', adminAuth, (req, res) => {
+  const { siteName, logoUrl } = req.body;
+  const cfg = loadConfig();
+  cfg.siteConfig = {
+    siteName: (siteName || 'POWER FIT').trim(),
+    logoUrl: (logoUrl || '').trim()
+  };
+  saveConfig(cfg);
+  audit.append('site_config_updated', req.adminUser?.email || 'devops', req.ip, cfg.siteConfig);
+  res.json({ ok: true, siteConfig: cfg.siteConfig });
+});
+
+// ════════════════════════════════════════════════════════════════════════════
 // ── DASHBOARD FINANCEIRO ────────────────────────────────────────────────────
 // ════════════════════════════════════════════════════════════════════════════
 
