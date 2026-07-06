@@ -554,6 +554,7 @@ tbody tr:last-child td { border-bottom: none; }
     <div class="nav-section">Operações</div>
     <div class="nav-item" data-page="dashboard"><span class="ni-icon">🖥️</span> Dashboard</div>
     <div class="nav-item" data-page="whatsapp"><span class="ni-icon">💬</span> WhatsApp</div>
+    <div class="nav-item" data-page="custmsg"><span class="ni-icon">🔔</span> Notificações Cliente</div>
     <div class="nav-item" data-page="msggen"><span class="ni-icon">✉️</span> Mensagens</div>
     <div class="nav-item" data-page="monitor"><span class="ni-icon">📈</span> Monitor</div>
     <div class="nav-item" data-page="deploy"><span class="ni-icon">🚀</span> Deploy</div>
@@ -925,6 +926,19 @@ tbody tr:last-child td { border-bottom: none; }
           </table>
         </div>
       </div>
+    </div>
+
+    <!-- ═══ NOTIFICAÇÕES CLIENTE ═══ -->
+    <div class="page" id="page-custmsg">
+      <div class="card">
+        <h3>Envio de Mensagens Automáticas</h3>
+        <div class="toggle-wrap" style="margin-bottom:12px">
+          <div class="toggle" id="custmsg-toggle" onclick="toggleCustomerMessaging()"></div>
+          <span id="custmsg-label" style="font-size:13px;color:var(--muted)">Ativado</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">Quando desativado, o bot NÃO envia PIX gerado, aprovação/recusa de pagamento, solicitação de novo comprovante e lembretes de carrinho abandonado. O código de acesso (OTP) de login continua sendo enviado sempre, por segurança.</p>
+      </div>
+      <div id="custmsg-list"></div>
     </div>
 
     <!-- ═══ TERMINAL ═══ -->
@@ -2521,7 +2535,7 @@ document.querySelectorAll('.nav-item').forEach(el => {
   el.addEventListener('click', () => showPage(el.dataset.page));
 });
 
-const pageTitles = { site: '🌎 SITE — Central de Monitoramento', banners: '🖼️ Banners Promocionais', dashboard: 'Dashboard', whatsapp: 'WhatsApp Bot', msggen: '✉️ Gerador de Mensagens WhatsApp', monitor: 'Monitoramento do Servidor', deploy: 'Deploy & Atualizações', terminal: '💻 Terminal', logs: 'Visualizador de Logs', backup: 'Backup', files: 'Gerenciador de Arquivos', security: 'Segurança', audit: 'Auditoria', alerts: 'Alertas & Notificações', orders: 'Gestão de Pedidos', catalogs: 'Gerenciador de Catálogos', analytics: 'Analytics & Estatísticas', settings: 'Configurações', clientes: 'Clientes Cadastrados', produtos: '📱 Produtos Personalizados', cupons: '🎟️ Cupons de Desconto', wac: '📲 WhatsApp Contatos & Consentimento', vortexbank: '🧪 VortexBank — Pagamento em Teste' };
+const pageTitles = { site: '🌎 SITE — Central de Monitoramento', banners: '🖼️ Banners Promocionais', dashboard: 'Dashboard', whatsapp: 'WhatsApp Bot', custmsg: '🔔 Notificações Automáticas ao Cliente', msggen: '✉️ Gerador de Mensagens WhatsApp', monitor: 'Monitoramento do Servidor', deploy: 'Deploy & Atualizações', terminal: '💻 Terminal', logs: 'Visualizador de Logs', backup: 'Backup', files: 'Gerenciador de Arquivos', security: 'Segurança', audit: 'Auditoria', alerts: 'Alertas & Notificações', orders: 'Gestão de Pedidos', catalogs: 'Gerenciador de Catálogos', analytics: 'Analytics & Estatísticas', settings: 'Configurações', clientes: 'Clientes Cadastrados', produtos: '📱 Produtos Personalizados', cupons: '🎟️ Cupons de Desconto', wac: '📲 WhatsApp Contatos & Consentimento', vortexbank: '🧪 VortexBank — Pagamento em Teste' };
 
 function toggleMobMenu() {
   document.getElementById('sidebar').classList.toggle('mob-open');
@@ -2551,6 +2565,7 @@ function loadPage(name) {
   if (name === 'site') loadSite();
   else if (name === 'dashboard') loadDashboard();
   else if (name === 'whatsapp') loadWhatsApp();
+  else if (name === 'custmsg') loadCustomerMessages();
   else if (name === 'monitor') loadMonitor();
   else if (name === 'deploy') loadDeploy();
   else if (name === 'logs') loadLogs();
@@ -3368,6 +3383,40 @@ async function toggleMaintenance() {
     tog.className = 'toggle' + (r.maintenance ? ' on' : '');
     lbl.textContent = r.maintenance ? 'Ativado — site em manutenção' : 'Desativado';
   }
+}
+
+async function loadCustomerMessages() {
+  const d = await api.get('/api/admin/customer-messages');
+  if (!d) return;
+  const tog = document.getElementById('custmsg-toggle');
+  const lbl = document.getElementById('custmsg-label');
+  tog.className = 'toggle' + (d.enabled ? ' on' : '');
+  lbl.textContent = d.enabled ? 'Ativado' : 'Desativado';
+
+  const wrap = document.getElementById('custmsg-list');
+  wrap.innerHTML = Object.entries(d.templates).map(([id, t]) => `
+    <div class="card" style="margin-top:14px">
+      <h3 style="font-size:14px">${esc(t.label)}</h3>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:8px">${esc(t.description || '')}${t.vars?.length ? ' · Variáveis: ' + t.vars.map(v => '{{' + v + '}}').join(', ') : ''}</p>
+      <textarea id="custmsg-text-${id}" class="input" style="width:100%;min-height:120px;font-family:monospace;font-size:12px;white-space:pre-wrap">${esc(t.text)}</textarea>
+      <button class="btn btn-primary" style="margin-top:8px" onclick="saveCustomerMessageTemplate('${id}')">Salvar</button>
+    </div>
+  `).join('');
+}
+
+async function toggleCustomerMessaging() {
+  const r = await api.post('/api/admin/customer-messages/toggle');
+  if (r) {
+    document.getElementById('custmsg-toggle').className = 'toggle' + (r.enabled ? ' on' : '');
+    document.getElementById('custmsg-label').textContent = r.enabled ? 'Ativado' : 'Desativado';
+  }
+}
+
+async function saveCustomerMessageTemplate(id) {
+  const text = document.getElementById(`custmsg-text-${id}`).value;
+  const r = await api.post(`/api/admin/customer-messages/${id}`, { text });
+  if (r?.ok) alert('✅ Mensagem salva!');
+  else alert(r?.error || 'Erro ao salvar.');
 }
 
 async function setRole(id, role) {

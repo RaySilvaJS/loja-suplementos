@@ -2,6 +2,7 @@ const { makeWASocket, useMultiFileAuthState, DisconnectReason, downloadMediaMess
 const qrcode = require('qrcode-terminal');
 const path   = require('path');
 const fs     = require('fs');
+const messages = require('./messages');
 
 const paymentsPath   = path.join(__dirname, 'data', 'payments.json');
 const WA_EVENTS_PATH = path.join(__dirname, 'data', 'wa-events.json');
@@ -430,6 +431,7 @@ const formatCpfDisplay = (cpf) => {
 // ── Envia mensagem diretamente para o cliente (usado pelo painel admin) ───────
 const sendToClient = async (clientPhone, text) => {
   if (!socketInstance || !clientPhone) return false;
+  if (!messages.isEnabled()) return false;
   const jid = await resolveWAJid(socketInstance, clientPhone);
   if (!jid) { console.error('[WA] sendToClient: número inválido:', clientPhone); return false; }
   try {
@@ -719,20 +721,15 @@ const initWhatsApp = async () => {
       savePayments(allPayments);
       console.log(`[WA] Pedido ${shortDisplay} marcado como PAGO.`);
 
-      if (clientJid) {
+      if (clientJid && messages.isEnabled()) {
         try {
           await sock.sendMessage(clientJid, {
-            text: [
-              '✅ *Pagamento Aprovado!*',
-              '',
-              `Olá${cur.clientName ? ', ' + cur.clientName : ''}!`,
-              `Seu pedido ${shortDisplay} foi *confirmado com sucesso*.`,
-              '',
-              `📦 Produto: ${cur.productName || cur.productId}`,
-              `💰 Valor: ${formatBRL(cur.amount)}`,
-              '',
-              'Seu pedido está sendo preparado para envio. Obrigado pela compra! 🎉'
-            ].join('\n')
+            text: messages.render('payment_approved', {
+              nomeSuffix: cur.clientName ? ', ' + cur.clientName : '',
+              pedido: shortDisplay,
+              produto: cur.productName || cur.productId,
+              valor: formatBRL(cur.amount)
+            })
           });
         } catch (e) { console.error('[WA] Erro ao notificar cliente (aprovado):', e.message); }
       }
@@ -749,19 +746,14 @@ const initWhatsApp = async () => {
       savePayments(allPayments);
       console.log(`[WA] Pedido ${shortDisplay} RECUSADO. Motivo: ${reason}`);
 
-      if (clientJid) {
+      if (clientJid && messages.isEnabled()) {
         try {
           await sock.sendMessage(clientJid, {
-            text: [
-              '❌ *Pagamento Recusado*',
-              '',
-              `Olá${cur.clientName ? ', ' + cur.clientName : ''}!`,
-              `Infelizmente o comprovante do pedido ${shortDisplay} *não foi aprovado*.`,
-              '',
-              `📋 Motivo: ${reason}`,
-              '',
-              'Por favor, entre em contato pelo site ou envie um novo comprovante válido.'
-            ].join('\n')
+            text: messages.render('payment_rejected', {
+              nomeSuffix: cur.clientName ? ', ' + cur.clientName : '',
+              pedido: shortDisplay,
+              motivo: reason
+            })
           });
         } catch (e) { console.error('[WA] Erro ao notificar cliente (recusado):', e.message); }
       }
@@ -778,20 +770,15 @@ const initWhatsApp = async () => {
       savePayments(allPayments);
       console.log(`[WA] Pedido ${shortDisplay}: solicitado novo comprovante.`);
 
-      if (clientJid) {
+      if (clientJid && messages.isEnabled()) {
         try {
           await sock.sendMessage(clientJid, {
-            text: [
-              '🔄 *Novo Comprovante Necessário*',
-              '',
-              `Olá${cur.clientName ? ', ' + cur.clientName : ''}!`,
-              `Para o pedido ${shortDisplay}, precisamos que você envie um novo comprovante de pagamento.`,
-              '',
-              'Acesse o site e utilize o botão "Enviar Comprovante" novamente.',
-              '',
-              `📦 Produto: ${cur.productName || cur.productId}`,
-              `💰 Valor: ${formatBRL(cur.amount)}`
-            ].join('\n')
+            text: messages.render('proof_resend_request', {
+              nomeSuffix: cur.clientName ? ', ' + cur.clientName : '',
+              pedido: shortDisplay,
+              produto: cur.productName || cur.productId,
+              valor: formatBRL(cur.amount)
+            })
           });
         } catch (e) { console.error('[WA] Erro ao notificar cliente (reenviar):', e.message); }
       }
@@ -967,32 +954,14 @@ const sendPaymentRequest = async (sock, paymentId, shortId, product, amount, cli
 
   // ── Mensagem de confirmação para o cliente (apenas PIX) ───────────────────
   // Cartão não envia PIX ao cliente — a mensagem de confirmação é manual.
-  if (!isCartao && pixCode && clientPhone) {
+  if (!isCartao && pixCode && clientPhone && messages.isEnabled()) {
     const clientJid = await resolveWAJid(sock, clientPhone);
     if (clientJid) {
-      const clientLines = [
-        '✅ *Seu PIX foi gerado com sucesso!*',
-        '',
-        `Olá, *${nome}*!`,
-        '',
-        '━━━━━━━━━━━━━━━',
-        `📋 *Pedido:* #${shortId}`,
-        `🛍️ *Produto:* ${product}`,
-        `📅 *Data:* ${now}`,
-        `💰 *Valor:* ${formatBRL(amount)}`,
-        '━━━━━━━━━━━━━━━',
-        '',
-        '📋 *Código PIX — Copia e Cola:*',
-        pixCode,
-        '',
-        '⏰ *Pague em até 30 minutos* para garantir o seu pedido.',
-        '',
-        'Assim que o pagamento for identificado, seu pedido será processado automaticamente. 🎉',
-        '',
-        'Dúvidas? Responda esta mensagem ou acesse nosso site.'
-      ];
+      const text = messages.render('pix_generated', {
+        nome, pedido: shortId, produto: product, data: now, valor: formatBRL(amount), pixCode
+      });
       try {
-        await sock.sendMessage(clientJid, { text: clientLines.join('\n') });
+        await sock.sendMessage(clientJid, { text });
         console.log(`[WA] PIX enviado ao cliente ${tel} | Pedido #${shortId}`);
         try { getTracker()?.record('wa_sent', { to: 'client', type: 'pix_generated' }); } catch {}
       } catch (e) {

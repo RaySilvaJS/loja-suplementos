@@ -612,10 +612,10 @@ const hideSkeleton = () => {
   }
 };
 
-const fetchProducts = async (targetPage) => {
+const fetchProducts = async (targetPage, categoryKeyOverride) => {
   const t0 = performance.now();
   const searchQuery = filterModel ? filterModel.value.trim() : '';
-  const key  = getCurrentCatalogKey();
+  const key  = categoryKeyOverride || getCurrentCatalogKey();
   const page = Math.max(1, targetPage || 1);
 
   // Atualiza URL (exceto durante popstate)
@@ -926,20 +926,26 @@ function _appendMoreProducts() {
   console.log(`[LOAD MORE] +${batch.length} cards | exibindo ${totalLoaded}/${currentProducts.length}`);
 }
 
+// Aplica um estado de URL já parseado: sincroniza os botões de categoria/busca
+// no DOM e dispara o carregamento dos produtos passando a categoria explicitamente
+// (não depende da classe .active já estar setada no DOM antes de rodar).
+function _applyUrlState(urlState) {
+  if (urlState.mode === 'search') {
+    if (filterModel) filterModel.value = urlState.termo;
+    return fetchProducts(urlState.pagina);
+  }
+  categoryButtons.forEach(b => b.classList.toggle('active', b.dataset.catalog === urlState.catalogKey));
+  if (filterModel) filterModel.value = '';
+  return fetchProducts(urlState.pagina, urlState.catalogKey);
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
   _initDebugPanel();
 
   // Lê URL para saber qual catálogo/página/busca carregar
   const urlState = _parseURL();
 
-  if (urlState.mode === 'search' && urlState.termo) {
-    if (filterModel) filterModel.value = urlState.termo;
-  } else if (urlState.mode === 'catalog') {
-    const key = urlState.catalogKey;
-    categoryButtons.forEach(b => b.classList.toggle('active', b.dataset.catalog === key));
-  }
-
-  await fetchProducts(urlState.pagina);
+  await _applyUrlState(urlState);
   if (window.cart) window.cart.updateUI();
   updateCompareBadge();
   setTimeout(showChat, 5000);
@@ -947,17 +953,16 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // ===== NAVEGAÇÃO COM BOTÕES DO BROWSER (Voltar / Avançar) =====
   window.addEventListener('popstate', () => {
-    const st = _parseURL();
     _suppressURLUpdate = true;
-    if (st.mode === 'search') {
-      if (filterModel) filterModel.value = st.termo;
-    } else {
-      categoryButtons.forEach(b => b.classList.toggle('active', b.dataset.catalog === st.catalogKey));
-      if (filterModel) filterModel.value = '';
-    }
-    fetchProducts(st.pagina).finally(() => { _suppressURLUpdate = false; });
+    _applyUrlState(_parseURL()).finally(() => { _suppressURLUpdate = false; });
   });
 
+  // ===== RESTAURAÇÃO DO CACHE DE NAVEGAÇÃO (bfcache) =====
+  // Se o navegador restaura a página do bfcache (comum após pushState + certas
+  // navegações), o DOMContentLoaded não dispara de novo — refaz o carregamento aqui.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) _applyUrlState(_parseURL());
+  });
 });
 
 function initImageAutoSlider() {

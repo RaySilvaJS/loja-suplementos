@@ -11,6 +11,7 @@ const audit = require('./audit');
 const alerts = require('./alerts');
 const { sendToClient } = require('./whatsapp');
 const telegram = require('./telegram');
+const messages = require('./messages');
 
 const ROOT = path.join(__dirname, '..');
 const DATA = path.join(__dirname, 'data');
@@ -832,6 +833,28 @@ router.post('/site-config', adminAuth, (req, res) => {
 });
 
 // ════════════════════════════════════════════════════════════════════════════
+// ── MENSAGENS AUTOMÁTICAS AO CLIENTE ────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════════
+
+router.get('/customer-messages', adminAuth, (req, res) => {
+  res.json({ enabled: messages.isEnabled(), templates: messages.getTemplates() });
+});
+
+router.post('/customer-messages/toggle', adminAuth, (req, res) => {
+  const enabled = messages.setEnabled(!messages.isEnabled());
+  audit.append('customer_messages_toggled', req.adminUser?.email || 'devops', req.ip, { enabled });
+  res.json({ enabled });
+});
+
+router.post('/customer-messages/:id', adminAuth, (req, res) => {
+  try {
+    messages.setTemplateText(req.params.id, String(req.body.text || ''));
+    audit.append('customer_message_updated', req.adminUser?.email || 'devops', req.ip, { id: req.params.id });
+    res.json({ ok: true });
+  } catch (e) { res.status(400).json({ error: e.message }); }
+});
+
+// ════════════════════════════════════════════════════════════════════════════
 // ── DASHBOARD FINANCEIRO ────────────────────────────────────────────────────
 // ════════════════════════════════════════════════════════════════════════════
 
@@ -957,29 +980,19 @@ router.patch('/orders/:id', adminAuth, async (req, res) => {
 
     if (clientPhone && newStatus && newStatus !== prevStatus) {
       if (newStatus === 'paid') {
-        sendToClient(clientPhone, [
-          '✅ *Pagamento Aprovado!*',
-          '',
-          `Olá${order.clientName ? ', ' + order.clientName : ''}!`,
-          `Seu pedido ${shortDisplay} foi *confirmado com sucesso*.`,
-          '',
-          `📦 Produto: ${order.productName || order.productId}`,
-          `💰 Valor: ${fmtBRL(order.amount)}`,
-          '',
-          'Seu pedido está sendo preparado para envio. Obrigado pela compra! 🎉'
-        ].join('\n')).catch(() => {});
+        sendToClient(clientPhone, messages.render('payment_approved', {
+          nomeSuffix: order.clientName ? ', ' + order.clientName : '',
+          pedido: shortDisplay,
+          produto: order.productName || order.productId,
+          valor: fmtBRL(order.amount)
+        })).catch(() => {});
       } else if (newStatus === 'refused') {
         const reason = order.refuseReason || note || 'Motivo não informado';
-        sendToClient(clientPhone, [
-          '❌ *Pagamento Recusado*',
-          '',
-          `Olá${order.clientName ? ', ' + order.clientName : ''}!`,
-          `Infelizmente o comprovante do pedido ${shortDisplay} *não foi aprovado*.`,
-          '',
-          `📋 Motivo: ${reason}`,
-          '',
-          'Entre em contato ou envie um novo comprovante válido.'
-        ].join('\n')).catch(() => {});
+        sendToClient(clientPhone, messages.render('payment_rejected', {
+          nomeSuffix: order.clientName ? ', ' + order.clientName : '',
+          pedido: shortDisplay,
+          motivo: reason
+        })).catch(() => {});
       }
     }
 

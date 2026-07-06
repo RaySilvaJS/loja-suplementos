@@ -19,6 +19,7 @@ const bcrypt = require('bcryptjs');
 const paymentRouter = require('./payment');
 const adminRouter = require('./admin');
 const { loadConfig, loadSecurity, saveSecurity } = require('./admin');
+const messages = require('./messages');
 const { initWhatsApp, sendPaymentRequest, sendActivityNotification, resolveWAJid } = require('./whatsapp');
 const { v4: uuidv4 } = require('uuid');
 const tracker = require('./tracker');
@@ -1667,7 +1668,7 @@ app.post('/api/auth/otp/send', authRateLimit(5, 5 * 60 * 1000), async (req, res)
       const jid = await resolveWAJid(sock, digits);
       if (!jid) throw new Error('Número não encontrado no WhatsApp');
       await sock.sendMessage(jid, {
-        text: `*POWER FIT*\n\nSeu código de acesso é: *${code}*\n\nVálido por 10 minutos. Não compartilhe com ninguém.`
+        text: messages.render('otp_code', { codigo: code })
       });
     }
   } catch (e) {
@@ -1844,17 +1845,18 @@ function startAbandonedCheckoutRecovery() {
     return full.length >= 12 && full.length <= 13 ? `${full}@s.whatsapp.net` : null;
   };
 
-  const sendRecovery = async (payment, label, msg) => {
+  const sendRecovery = async (payment, templateId, vars) => {
+    if (!messages.isEnabled()) return;
     const sock = getSocket();
     if (!sock) return;
     const jid = toWAJid(payment.clientPhone);
     if (!jid) return;
 
     try {
-      await sock.sendMessage(jid, { text: msg });
-      console.log(`[Recovery] ${label} enviado para ${jid} — pedido ${payment.shortId}`);
+      await sock.sendMessage(jid, { text: messages.render(templateId, vars) });
+      console.log(`[Recovery] ${templateId} enviado para ${jid} — pedido ${payment.shortId}`);
     } catch (e) {
-      console.error(`[Recovery] Erro ao enviar ${label}:`, e.message);
+      console.error(`[Recovery] Erro ao enviar ${templateId}:`, e.message);
     }
   };
 
@@ -1880,56 +1882,32 @@ function startAbandonedCheckoutRecovery() {
 
       // 30 minutos
       if (!sentFlags.m30 && elapsed >= 30 * 60 * 1000 && elapsed < 2 * 60 * 60 * 1000) {
-        await sendRecovery(p, '30min', [
-          `👋 *Oi, ${name}!*`,
-          '',
-          `Percebemos que seu pedido de *${prod}* por *${value}* ainda está aguardando o pagamento PIX.`,
-          '',
-          `📋 *Pedido:* #${p.shortId || p.id.slice(0,8)}`,
-          `💰 *Valor:* ${value}`,
-          '',
-          '📋 *Código PIX — Copia e Cola:*',
-          p.qrCode || '(código não disponível)',
-          '',
-          '⏰ Pague agora para garantir o seu produto!',
-          '',
-          '_Caso já tenha pago, envie o comprovante nesta conversa._',
-        ].join('\n'));
+        await sendRecovery(p, 'cart_recovery_30m', {
+          nome: name, produto: prod, valor: value,
+          pedido: p.shortId || p.id.slice(0,8),
+          pixCode: p.qrCode || '(código não disponível)'
+        });
         sentFlags.m30 = new Date().toISOString();
         changed.push({ id: p.id, recoverySent: sentFlags });
       }
 
       // 6 horas
       else if (!sentFlags.h6 && elapsed >= 6 * 60 * 60 * 1000 && elapsed < 20 * 60 * 60 * 1000) {
-        await sendRecovery(p, '6h', [
-          `🔥 *${name}, sua oferta ainda está disponível!*`,
-          '',
-          `Ainda não identificamos o pagamento do seu pedido de *${prod}*.`,
-          '',
-          `💰 *Valor:* ${value}`,
-          `📋 *Pedido:* #${p.shortId || p.id.slice(0,8)}`,
-          '',
-          '📋 *Código PIX — Copia e Cola:*',
-          p.qrCode || '(código não disponível)',
-          '',
-          'Pague agora antes que o estoque acabe! 🛍️',
-        ].join('\n'));
+        await sendRecovery(p, 'cart_recovery_6h', {
+          nome: name, produto: prod, valor: value,
+          pedido: p.shortId || p.id.slice(0,8),
+          pixCode: p.qrCode || '(código não disponível)'
+        });
         sentFlags.h6 = new Date().toISOString();
         changed.push({ id: p.id, recoverySent: sentFlags });
       }
 
       // 24 horas
       else if (!sentFlags.h24 && elapsed >= 24 * 60 * 60 * 1000 && elapsed < 30 * 60 * 60 * 1000) {
-        await sendRecovery(p, '24h', [
-          `⏳ *${name}, última chance!*`,
-          '',
-          `Seu pedido de *${prod}* por *${value}* ainda está reservado, mas pode ser cancelado em breve por falta de pagamento.`,
-          '',
-          '📋 *Código PIX — Copia e Cola:*',
-          p.qrCode || '(código não disponível)',
-          '',
-          'Se precisar de ajuda, é só falar aqui. Estamos prontos para te atender! 🙂',
-        ].join('\n'));
+        await sendRecovery(p, 'cart_recovery_24h', {
+          nome: name, produto: prod, valor: value,
+          pixCode: p.qrCode || '(código não disponível)'
+        });
         sentFlags.h24 = new Date().toISOString();
         changed.push({ id: p.id, recoverySent: sentFlags });
       }
