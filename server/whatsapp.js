@@ -34,7 +34,7 @@ const BOT_CONFIG_PATH = path.join(__dirname, 'data', 'bot', 'config.json');
 
 const loadBotCfg = () => {
   try { return JSON.parse(fs.readFileSync(BOT_CONFIG_PATH, 'utf-8')); }
-  catch { return { enabled: false, mode: 'allowlist', allowedTestPhones: [], maxRepliesPerMinute: 6, ignoreMessagesOlderThanSeconds: 60, campaignCodes: [], siteUrl: '', conversationTtlDays: 30 }; }
+  catch { return { enabled: false, mode: 'allowlist', allowedTestPhones: [], maxRepliesPerMinute: 6, ignoreMessagesOlderThanSeconds: 60, campaignCodes: [], siteUrl: '', conversationTtlDays: 30, groupId: '' }; }
 };
 
 const saveBotCfg = (cfg) => {
@@ -44,6 +44,19 @@ const saveBotCfg = (cfg) => {
     fs.writeFileSync(tmp, JSON.stringify(cfg, null, 2), 'utf-8');
     fs.renameSync(tmp, BOT_CONFIG_PATH);
   } catch (e) { console.error('[BOT-CFG] Erro ao salvar:', e.message); }
+};
+
+// ── Grupo de notificações — editável via DevOps, com fallback para o .env ────
+const getGroupId = () => {
+  const saved = (loadBotCfg().groupId || '').trim();
+  return saved || WHATSAPP_GROUP_ID || '';
+};
+
+const setGroupId = (id) => {
+  const cfg = loadBotCfg();
+  cfg.groupId = (id || '').trim();
+  saveBotCfg(cfg);
+  return cfg.groupId;
 };
 
 async function handleBotAdminCommand(sock, groupJid, rawText) {
@@ -619,13 +632,13 @@ const initWhatsApp = async () => {
 
     // ── Mensagens diretas de clientes → bot autônomo ──────────────────────
     // O fluxo do grupo admin (abaixo) continua INALTERADO.
-    if (jid !== WHATSAPP_GROUP_ID) {
+    if (jid !== getGroupId()) {
       // Ignorar status@broadcast e outros grupos
       if (jid === 'status@broadcast' || jid.endsWith('@g.us')) return;
       // Redirecionar mensagens diretas ao bot (desligado por padrão — server/data/bot/config.json)
       try {
         const { handleCustomerMessage } = require('./bot/customer-handler');
-        await handleCustomerMessage(sock, message, WHATSAPP_GROUP_ID);
+        await handleCustomerMessage(sock, message, getGroupId());
       } catch (botErr) {
         // Erros do bot nunca afetam o servidor nem o grupo admin
         console.error('[BOT] Erro no handler de cliente:', botErr?.message || botErr);
@@ -870,7 +883,8 @@ const initWhatsApp = async () => {
  *                         installments, clientName, clientEmail, clientCpf, address }
  */
 const sendPaymentRequest = async (sock, paymentId, shortId, product, amount, clientPhone, pixCode, opts = {}) => {
-  if (!WHATSAPP_GROUP_ID) { console.error('[WA] ERRO: WHATSAPP_GROUP_ID não definido no .env'); return null; }
+  const groupId = getGroupId();
+  if (!groupId) { console.error('[WA] ERRO: grupo de notificações não configurado (DevOps ou .env)'); return null; }
 
   const now      = new Date().toLocaleString('pt-BR');
   const isCartao = opts.paymentMethod === 'cartao';
@@ -943,7 +957,7 @@ const sendPaymentRequest = async (sock, paymentId, shortId, product, amount, cli
 
   let messageId = null;
   try {
-    const sent = await sock.sendMessage(WHATSAPP_GROUP_ID, { text: groupLines.join('\n') });
+    const sent = await sock.sendMessage(groupId, { text: groupLines.join('\n') });
     messageId = sent?.key?.id || null;
     console.log(`[WA] Pedido #${shortId} notificado no grupo. MessageID: ${messageId}`);
     try { getTracker()?.record('wa_sent', { to: 'group' }); } catch {}
@@ -1034,9 +1048,10 @@ const gracefulShutdown = async () => {
 // Envia notificação genérica ao grupo admin (cadastro, login, carrinho, etc.)
 const sendActivityNotification = async (text) => {
   const sock = getSocket();
-  if (!sock || !WHATSAPP_GROUP_ID) return;
+  const groupId = getGroupId();
+  if (!sock || !groupId) return;
   try {
-    await sock.sendMessage(WHATSAPP_GROUP_ID, { text });
+    await sock.sendMessage(groupId, { text });
   } catch (e) {
     console.error('[WA] Erro ao enviar notificação de atividade:', e.message);
   }
@@ -1055,5 +1070,7 @@ module.exports = {
   restartWhatsApp,
   disconnectWhatsApp,
   clearSession,
-  gracefulShutdown
+  gracefulShutdown,
+  getGroupId,
+  setGroupId
 };
